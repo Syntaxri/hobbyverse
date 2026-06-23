@@ -1,0 +1,240 @@
+'use client';
+
+import { useState, useCallback } from 'react';
+import Link from 'next/link';
+import { useParams, useRouter } from 'next/navigation';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Container } from '@/components/layout/Container';
+import { Section } from '@/components/layout/Section';
+import { Button } from '@/components/ui/Button';
+import { Badge } from '@/components/ui/Badge';
+import { Rating } from '@/components/ui/Rating';
+import { Card } from '@/components/ui/Card';
+import { ProductImage } from '@/components/ui/ProductImage';
+import { ScrollReveal } from '@/components/motion/ScrollReveals';
+import { AddressForm } from '@/components/delivery/AddressForm';
+import { getProduct, getProductsByCategory } from '@/lib/getProduct';
+import { useCartStore } from '@/store/useCartStore';
+import { useRentalStore } from '@/store/useRentalStore';
+import { useToastStore } from '@/store/useToastStore';
+
+const durations = [
+  { id: 'daily', label: 'Daily', suffix: '/day' },
+  { id: 'weekly', label: 'Weekly', suffix: '/week' },
+  { id: 'monthly', label: 'Monthly', suffix: '/month' },
+];
+
+export default function ProductDetailPage() {
+  const params = useParams();
+  const router = useRouter();
+  const product = getProduct(params.id);
+  const [selectedDuration, setSelectedDuration] = useState('weekly');
+  const [quantity, setQuantity] = useState(1);
+  const [addedToCart, setAddedToCart] = useState(false);
+  const [showAddressForm, setShowAddressForm] = useState(false);
+  const [isCreating, setIsCreating] = useState(false);
+
+  const addItem = useCartStore((s) => s.addItem);
+  const toggleFavorite = useRentalStore((s) => s.toggleFavorite);
+  const createRental = useRentalStore((s) => s.createRental);
+  const favorites = useRentalStore((s) => s.favorites);
+  const addToast = useToastStore((s) => s.addToast);
+
+  const isFav = product ? favorites.includes(product.id) : false;
+
+  const handleAddToCart = useCallback(() => {
+    if (!product) return;
+    addItem(product, selectedDuration, quantity);
+    setAddedToCart(true);
+    addToast(`${product.name} added to cart`, 'success');
+    setTimeout(() => setAddedToCart(false), 2000);
+  }, [product, selectedDuration, quantity, addItem, addToast]);
+
+  const handleToggleFavorite = useCallback(() => {
+    if (!product) return;
+    toggleFavorite(product.id);
+    const nowFav = !isFav;
+    addToast(nowFav ? 'Added to favorites' : 'Removed from favorites', nowFav ? 'success' : 'info');
+  }, [product, toggleFavorite, isFav, addToast]);
+
+  const handleRentNow = useCallback(() => {
+    if (!product?.available) return;
+    setShowAddressForm(true);
+  }, [product]);
+
+  const handleAddressSubmit = useCallback((address) => {
+    if (!product) return;
+    setIsCreating(true);
+    createRental(product, selectedDuration, quantity, address);
+    addToast('Rental confirmed!', 'success');
+    setShowAddressForm(false);
+    setIsCreating(false);
+    router.push('/delivery');
+  }, [product, selectedDuration, quantity, createRental, addToast, router]);
+
+  if (!product) {
+    return (
+      <Section className="pt-32">
+        <Container className="text-center py-20">
+          <div className="w-16 h-16 rounded-2xl bg-hv-cyan/10 flex items-center justify-center mx-auto mb-4">
+            <span className="text-2xl">?</span>
+          </div>
+          <h1 className="text-3xl font-bold text-hv-foreground mb-4">Equipment Not Found</h1>
+          <p className="text-hv-muted mb-8">This item may have been removed or is no longer available.</p>
+          <Link href="/hobbies">
+            <Button variant="secondary">Browse Equipment</Button>
+          </Link>
+        </Container>
+      </Section>
+    );
+  }
+
+  const price = product[selectedDuration] || product.weekly;
+  const related = getProductsByCategory(product.category).filter((p) => p.id !== product.id).slice(0, 3);
+
+  return (
+    <Section className="pt-32">
+      <Container>
+        <div className="grid lg:grid-cols-2 gap-8 md:gap-12 mb-20">
+          <ScrollReveal direction="left">
+            <div className="relative aspect-square rounded-3xl overflow-hidden group">
+              <ProductImage product={product} className="w-full h-full" aspect="1/1" />
+              <div className="absolute inset-0 bg-gradient-to-t from-white/30 to-transparent pointer-events-none" />
+              <div className="absolute bottom-6 left-6">
+                <Badge variant={product.available ? 'green' : 'default'} dot>
+                  {product.available ? 'Available Now' : 'Currently Rented'}
+                </Badge>
+              </div>
+            </div>
+          </ScrollReveal>
+
+          <ScrollReveal direction="right" className="flex flex-col">
+            <div className="mb-2">
+              <Badge variant="cyan">{product.category}</Badge>
+            </div>
+            <h1 className="text-3xl md:text-5xl font-black text-hv-foreground tracking-tight mb-3">
+              {product.name}
+            </h1>
+            <p className="text-hv-muted mb-6 leading-relaxed">{product.description}</p>
+
+            <div className="flex items-center gap-4 mb-8">
+              <Rating value={product.rating} size="md" />
+              <span className="text-sm text-hv-muted">{product.reviews} reviews</span>
+            </div>
+
+            <div className="bg-white rounded-2xl border border-hv-border p-6 mb-8 shadow-card">
+              <div className="flex items-baseline gap-1 mb-6">
+                <span className="text-4xl md:text-5xl font-black text-hv-foreground">${price}</span>
+                <span className="text-hv-muted">{durations.find((d) => d.id === selectedDuration)?.suffix}</span>
+              </div>
+
+              <div className="flex gap-2 mb-6">
+                {durations.map((d) => (
+                  <button
+                    key={d.id}
+                    onClick={() => setSelectedDuration(d.id)}
+                    className={`flex-1 px-4 py-3 rounded-xl text-sm font-medium transition-all min-h-[48px] ${
+                      selectedDuration === d.id
+                        ? 'bg-gradient-to-r from-hv-cyan to-hv-sky text-white shadow-md'
+                        : 'bg-hv-bg text-hv-muted hover:bg-hv-border/50'
+                    }`}
+                  >
+                    {d.label}
+                    <div className="text-xs opacity-70">${product[d.id]}</div>
+                  </button>
+                ))}
+              </div>
+
+              <div className="flex items-center gap-4 mb-6">
+                <span className="text-sm text-hv-muted">Quantity:</span>
+                <div className="flex items-center gap-3">
+                  <button
+                    onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                    className="w-10 h-10 rounded-full bg-hv-bg border border-hv-border flex items-center justify-center hover:border-hv-cyan transition-colors text-sm text-hv-foreground"
+                    aria-label="Decrease quantity"
+                  >-</button>
+                  <span className="text-lg font-semibold text-hv-foreground w-10 text-center">{quantity}</span>
+                  <button
+                    onClick={() => setQuantity(quantity + 1)}
+                    className="w-10 h-10 rounded-full bg-hv-bg border border-hv-border flex items-center justify-center hover:border-hv-cyan transition-colors text-sm text-hv-foreground"
+                    aria-label="Increase quantity"
+                  >+</button>
+                </div>
+              </div>
+
+              <div className="flex items-center justify-between pt-6 border-t border-hv-border mb-6">
+                <span className="text-sm text-hv-muted">Total</span>
+                <span className="text-2xl font-bold text-hv-foreground">${(price * quantity).toLocaleString()}</span>
+              </div>
+
+              <Button
+                variant="primary"
+                className="w-full mb-3"
+                size="lg"
+                onClick={handleRentNow}
+                disabled={!product.available || isCreating}
+              >
+                {isCreating ? 'Creating Rental...' : 'Rent Now'}
+              </Button>
+              <Button
+                variant="secondary"
+                className="w-full mb-3"
+                size="lg"
+                onClick={handleAddToCart}
+                disabled={!product.available || addedToCart}
+              >
+                {addedToCart ? 'Added to Cart' : 'Add to Cart'}
+              </Button>
+              <Button
+                variant="ghost"
+                className="w-full text-sm"
+                onClick={handleToggleFavorite}
+              >
+                {isFav ? 'Remove from Favorites' : 'Add to Favorites'}
+              </Button>
+            </div>
+          </ScrollReveal>
+        </div>
+
+        {related.length > 0 && (
+          <div>
+            <h2 className="text-2xl font-bold text-hv-foreground mb-8">Related Equipment</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {related.map((item, i) => (
+                <ScrollReveal key={item.id} delay={i * 0.1}>
+                  <Link href={`/product/${item.id}`}>
+                    <Card className="p-0 overflow-hidden group cursor-pointer" hoverEffect padding={false}>
+                      <div className="relative overflow-hidden">
+                        <ProductImage product={item} className="w-full" aspect="4/3" />
+                      </div>
+                      <div className="p-5">
+                        <h3 className="font-semibold text-hv-foreground mb-1">{item.name}</h3>
+                        <div className="flex items-center justify-between">
+                          <span className="text-sm font-bold text-hv-foreground">${item.weekly}/wk</span>
+                          <Button variant="ghost" size="sm">View</Button>
+                        </div>
+                      </div>
+                    </Card>
+                  </Link>
+                </ScrollReveal>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <AnimatePresence>
+          {showAddressForm && (
+            <AddressForm
+              product={product}
+              duration={selectedDuration}
+              price={price}
+              quantity={quantity}
+              onSubmit={handleAddressSubmit}
+              onCancel={() => !isCreating && setShowAddressForm(false)}
+            />
+          )}
+        </AnimatePresence>
+      </Container>
+    </Section>
+  );
+}
