@@ -13,18 +13,18 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "Syntaxri"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;Syntaxri&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/Syntaxri/hobbyverse.git",
-    "accountId": "bc006325-0cd5-495c-9785-40aea748a5ab"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/Syntaxri/hobbyverse.git&quot;,
+    &quot;accountId&quot;: &quot;bc006325-0cd5-495c-9785-40aea748a5ab&quot;
   }
-}]]></component>
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 3,
   &quot;fromUser&quot;: false
@@ -85,7 +85,7 @@
       <option name="presentableId" value="Default" />
       <updated>1782175831327</updated>
       <workItem from="1782175832701" duration="607000" />
-      <workItem from="1782211841692" duration="8435000" />
+      <workItem from="1782211841692" duration="8904000" />
     </task>
     <servers />
   </component>

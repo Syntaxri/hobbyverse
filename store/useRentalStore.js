@@ -1,8 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-let nextRentalId = 100;
-
 const STATUS_ORDER = [
   'CONFIRMED',
   'PACKING',
@@ -34,7 +32,18 @@ export const useRentalStore = create(
       favorites: [],
 
       createRental: (product, duration, quantity, address) => {
-        const id = `rnt_${++nextRentalId}`;
+        const existing = get().rentals;
+        const existingIds = new Set(existing.map((r) => r.id));
+        const maxNum = existing.reduce((max, r) => {
+          const m = r.id.match(/^rnt_(\d+)$/);
+          return m ? Math.max(max, parseInt(m[1], 10)) : max;
+        }, 100);
+        let nextNum = maxNum;
+        let id;
+        do {
+          nextNum++;
+          id = `rnt_${nextNum}`;
+        } while (existingIds.has(id));
         const startDate = now().split('T')[0];
         const dayMap = { daily: 1, weekly: 7, monthly: 30 };
         const endDate = addDays(startDate, (dayMap[duration] || 7) * quantity);
@@ -157,6 +166,19 @@ export const useRentalStore = create(
         rentals: state.rentals,
         favorites: state.favorites,
       }),
+      onRehydrateStorage: () => (state) => {
+        if (!state) return;
+        const seen = new Map();
+        const deduped = [];
+        for (const r of state.rentals) {
+          if (seen.has(r.id)) continue;
+          seen.set(r.id, true);
+          deduped.push(r);
+        }
+        if (deduped.length !== state.rentals.length) {
+          state.rentals = deduped;
+        }
+      },
     }
   )
 );
