@@ -47,7 +47,7 @@
     "js.debugger.nextJs.config.created.client": "true",
     "js.debugger.nextJs.config.created.server": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/home/viaruq/hobbyverse",
+    "last_opened_file_path": "/home/viaruq/hobbyverse/public/images",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -57,6 +57,11 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/public/images" />
+    </key>
+  </component>
   <component name="RunManager" selected="npm.Next.js: server-side">
     <configuration name="Next.js: debug client-side" type="JavascriptDebugType" uri="http://localhost:3000/">
       <method v="2" />
@@ -89,7 +94,7 @@
       <updated>1782175831327</updated>
       <workItem from="1782175832701" duration="607000" />
       <workItem from="1782211841692" duration="9723000" />
-      <workItem from="1782408040233" duration="1512000" />
+      <workItem from="1782408040233" duration="4710000" />
     </task>
     <servers />
   </component>
