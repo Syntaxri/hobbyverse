@@ -1,10 +1,11 @@
 import { HeroSection } from '@/features/HeroSection';
 import { CategoriesGrid } from '@/features/CategoriesGrid';
 import { EquipmentShowcase } from '@/features/EquipmentShowcase';
-import { HowItWorks } from '@/features/HowItWorks';
 import { WhyRent } from '@/features/WhyRent';
-import { TestimonialSection } from '@/features/Testimonials';
-import { CTASection } from '@/features/CTASection';
+import { HobbyJourneys } from '@/features/HobbyJourneys';
+import { HowItWorks } from '@/features/HowItWorks';
+import { DiscoverWithoutRisk } from '@/features/DiscoverWithoutRisk';
+import { FinalCTA } from '@/features/CTASection';
 import { structuredData } from '@/lib/seo';
 
 export default function HomePage() {
@@ -17,10 +18,11 @@ export default function HomePage() {
       <HeroSection />
       <CategoriesGrid />
       <EquipmentShowcase />
-      <HowItWorks />
       <WhyRent />
-      <TestimonialSection />
-      <CTASection />
+      <HobbyJourneys />
+      <HowItWorks />
+      <DiscoverWithoutRisk />
+      <FinalCTA />
     </>
   );
 }

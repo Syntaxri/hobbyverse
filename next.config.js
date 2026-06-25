@@ -2,18 +2,13 @@
 const nextConfig = {
   reactStrictMode: true,
 
-  images: {
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'images.unsplash.com',
-      },
-    ],
-  },
-
   experimental: {
     scrollRestoration: true,
   },
 };
 
 module.exports = nextConfig;
+
+module.exports = {
+  allowedDevOrigins: ['10.144.130.193'],
+}

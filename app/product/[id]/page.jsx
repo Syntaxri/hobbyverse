@@ -91,6 +91,7 @@ export default function ProductDetailPage() {
 
   const price = product[selectedDuration] || product.weekly;
   const related = getProductsByCategory(product.category).filter((p) => p.id !== product.id).slice(0, 3);
+  const specs = product.specifications || {};
 
   return (
     <Section className="pt-32">
@@ -115,12 +116,47 @@ export default function ProductDetailPage() {
             <h1 className="text-3xl md:text-5xl font-black text-hv-foreground tracking-tight mb-3">
               {product.name}
             </h1>
+
+            {Object.keys(specs).length > 0 && (
+              <div className="flex flex-wrap gap-2 mb-4">
+                {Object.entries(specs).slice(0, 4).map(([key, value]) => (
+                  value && (
+                    <span key={key} className="text-[11px] px-2.5 py-1 rounded-full bg-hv-bg border border-hv-border/50 text-hv-muted font-medium">
+                      {key === 'skillLevel' ? value :
+                       key === 'pages' ? `${value} pages` :
+                       key === 'condition' ? value :
+                       key === 'author' ? value :
+                       key === 'brand' || key === 'model' ? `${key === 'brand' ? '' : ''}${value}` :
+                       key === 'type' ? value :
+                       value}
+                    </span>
+                  )
+                ))}
+              </div>
+            )}
+
             <p className="text-hv-muted mb-6 leading-relaxed">{product.description}</p>
 
             <div className="flex items-center gap-4 mb-8">
               <Rating value={product.rating} size="md" />
               <span className="text-sm text-hv-muted">{product.reviews} reviews</span>
             </div>
+
+            {Object.keys(specs).length > 0 && (
+              <div className="bg-hv-bg rounded-2xl border border-hv-border p-5 mb-8">
+                <h3 className="text-xs font-semibold text-hv-muted uppercase tracking-wider mb-3">Specifications</h3>
+                <div className="grid grid-cols-2 gap-x-6 gap-y-2.5">
+                  {Object.entries(specs).map(([key, value]) => (
+                    value && (
+                      <div key={key} className="flex flex-col">
+                        <span className="text-[10px] text-hv-muted uppercase tracking-wider">{key.replace(/([A-Z])/g, ' $1').trim()}</span>
+                        <span className="text-sm font-medium text-hv-foreground">{String(value)}</span>
+                      </div>
+                    )
+                  ))}
+                </div>
+              </div>
+            )}
 
             <div className="bg-white rounded-2xl border border-hv-border p-6 mb-8 shadow-card">
               <div className="flex items-baseline gap-1 mb-6">

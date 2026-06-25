@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useMemo, useCallback } from 'react';
+import { useState, useMemo, useCallback, useEffect, Suspense } from 'react';
+import { useSearchParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Container } from '@/components/layout/Container';
 import { Section } from '@/components/layout/Section';
@@ -18,11 +19,18 @@ import { categories } from '@/data/categories';
 import { useCartStore } from '@/store/useCartStore';
 import { useToastStore } from '@/store/useToastStore';
 
-export default function HobbiesPage() {
-  const [activeCategory, setActiveCategory] = useState('all');
+function HobbiesContent() {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const categoryParam = searchParams.get('category') || 'all';
+  const [activeCategory, setActiveCategory] = useState(categoryParam);
   const [searchQuery, setSearchQuery] = useState('');
   const addItem = useCartStore((s) => s.addItem);
   const addToast = useToastStore((s) => s.addToast);
+
+  useEffect(() => {
+    setActiveCategory(categoryParam);
+  }, [categoryParam]);
 
   const allProducts = useMemo(() => getAllProducts(), []);
 
@@ -36,6 +44,15 @@ export default function HobbiesPage() {
     if (activeCategory === 'all') return allProducts;
     return getProductsByCategory(activeCategory);
   }, [activeCategory, searchQuery, allProducts]);
+
+  const handleTabChange = useCallback((id) => {
+    setActiveCategory(id);
+    if (id === 'all') {
+      router.replace('/hobbies');
+    } else {
+      router.replace(`/hobbies?category=${id}`);
+    }
+  }, [router]);
 
   const handleQuickRent = useCallback((e, product) => {
     e.preventDefault();
@@ -58,8 +75,8 @@ export default function HobbiesPage() {
         <ScrollReveal className="mb-10 overflow-x-auto pb-2">
           <Tabs
             tabs={tabOptions}
-            defaultTab="all"
-            onChange={setActiveCategory}
+            defaultTab={activeCategory}
+            onChange={handleTabChange}
           />
         </ScrollReveal>
 
@@ -136,5 +153,21 @@ export default function HobbiesPage() {
         </ScrollReveal>
       </Container>
     </Section>
+  );
+}
+
+export default function HobbiesPage() {
+  return (
+    <Suspense fallback={
+      <Section className="pt-32">
+        <Container className="text-center py-20">
+          <div className="w-16 h-16 rounded-2xl bg-hv-cyan/10 flex items-center justify-center mx-auto mb-4">
+            <span className="text-2xl animate-pulse">?</span>
+          </div>
+        </Container>
+      </Section>
+    }>
+      <HobbiesContent />
+    </Suspense>
   );
 }

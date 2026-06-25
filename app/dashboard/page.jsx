@@ -15,9 +15,10 @@ import { Icons } from '@/components/icons';
 
 function getImageForRental(rental) {
   const product = getProduct(rental.productId);
-  if (product?.image) return { src: product.image, gradient: product.gradient || getCategoryFallbackGradient(product.category) };
+  const gradient = product?.gradient || getCategoryFallbackGradient(product?.category) || getCategoryFallbackGradient(rental.category);
+  if (product?.image) return { src: product.image, gradient };
   if (rental.image) return { src: rental.image, gradient: getCategoryFallbackGradient(rental.category) };
-  return { src: '', gradient: getCategoryFallbackGradient(rental.category) };
+  return { src: '', gradient };
 }
 
 export default function DashboardPage() {
