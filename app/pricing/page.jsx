@@ -75,7 +75,7 @@ export default function PricingPage() {
       <Container>
         <SectionHeader subtitle="Pricing" title="Choose Your Plan" />
 
-        <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+        <div className="grid md:grid-cols-3 gap-6 sm:gap-8 max-w-5xl mx-auto">
           {plans.map((plan, i) => (
             <ScrollReveal key={plan.plan} delay={i * 0.15}>
               <PricingCard {...plan} loading={selectedPlan === plan.plan} onSelect={() => handleSelect(plan.plan)} />

@@ -37,17 +37,19 @@ export const AddressForm = ({ product, duration, price, quantity, onSubmit, onCa
         exit={{ y: '100%', opacity: 0 }}
         transition={{ type: 'spring', stiffness: 400, damping: 30 }}
         className="bg-white rounded-t-2xl sm:rounded-2xl w-full sm:max-w-md max-h-[90vh] overflow-y-auto shadow-elevated"
+        style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="p-6">
+        <div className="p-5 sm:p-6">
           <div className="flex items-center justify-between mb-5">
-            <div>
+            <div className="min-w-0">
               <h2 className="text-lg font-bold text-hv-foreground">Delivery Details</h2>
-              <p className="text-xs text-hv-muted mt-0.5">{product?.name}</p>
+              <p className="text-xs text-hv-muted mt-0.5 truncate">{product?.name}</p>
             </div>
             <button
               onClick={onCancel}
-              className="w-8 h-8 rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors"
+              className="w-10 h-10 rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors flex-shrink-0 ml-3"
+              aria-label="Close"
             >
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -64,30 +66,30 @@ export const AddressForm = ({ product, duration, price, quantity, onSubmit, onCa
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="grid grid-cols-2 gap-3">
-              <div className="col-span-2 sm:col-span-1">
-                <label className="block text-xs font-medium text-hv-foreground mb-1">Full Name *</label>
-                <input name="fullName" required className="w-full px-3.5 py-2.5 rounded-xl border border-hv-border bg-hv-bg text-sm text-hv-foreground placeholder:text-hv-muted focus:outline-2 focus:outline-hv-sky/40" placeholder="John Doe" />
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-xs font-medium text-hv-foreground mb-1.5">Full Name *</label>
+                <input name="fullName" required className="w-full px-3.5 py-3 rounded-xl border border-hv-border bg-hv-bg text-sm text-hv-foreground placeholder:text-hv-muted focus:outline-2 focus:outline-hv-sky/40 min-h-[48px]" placeholder="John Doe" />
               </div>
-              <div className="col-span-2 sm:col-span-1">
-                <label className="block text-xs font-medium text-hv-foreground mb-1">Phone *</label>
-                <input name="phone" type="tel" required className="w-full px-3.5 py-2.5 rounded-xl border border-hv-border bg-hv-bg text-sm text-hv-foreground placeholder:text-hv-muted focus:outline-2 focus:outline-hv-sky/40" placeholder="+1 555-0123" />
+              <div>
+                <label className="block text-xs font-medium text-hv-foreground mb-1.5">Phone *</label>
+                <input name="phone" type="tel" required className="w-full px-3.5 py-3 rounded-xl border border-hv-border bg-hv-bg text-sm text-hv-foreground placeholder:text-hv-muted focus:outline-2 focus:outline-hv-sky/40 min-h-[48px]" placeholder="+1 555-0123" />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-hv-foreground mb-1">Street Address *</label>
-              <input name="street" required className="w-full px-3.5 py-2.5 rounded-xl border border-hv-border bg-hv-bg text-sm text-hv-foreground placeholder:text-hv-muted focus:outline-2 focus:outline-hv-sky/40" placeholder="123 Main St" />
+              <label className="block text-xs font-medium text-hv-foreground mb-1.5">Street Address *</label>
+              <input name="street" required className="w-full px-3.5 py-3 rounded-xl border border-hv-border bg-hv-bg text-sm text-hv-foreground placeholder:text-hv-muted focus:outline-2 focus:outline-hv-sky/40 min-h-[48px]" placeholder="123 Main St" />
             </div>
 
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-medium text-hv-foreground mb-1">City *</label>
-                <input name="city" required className="w-full px-3.5 py-2.5 rounded-xl border border-hv-border bg-hv-bg text-sm text-hv-foreground placeholder:text-hv-muted focus:outline-2 focus:outline-hv-sky/40" placeholder="San Francisco" />
+                <label className="block text-xs font-medium text-hv-foreground mb-1.5">City *</label>
+                <input name="city" required className="w-full px-3.5 py-3 rounded-xl border border-hv-border bg-hv-bg text-sm text-hv-foreground placeholder:text-hv-muted focus:outline-2 focus:outline-hv-sky/40 min-h-[48px]" placeholder="San Francisco" />
               </div>
               <div>
-                <label className="block text-xs font-medium text-hv-foreground mb-1">Postal Code *</label>
-                <input name="postalCode" required className="w-full px-3.5 py-2.5 rounded-xl border border-hv-border bg-hv-bg text-sm text-hv-foreground placeholder:text-hv-muted focus:outline-2 focus:outline-hv-sky/40" placeholder="94102" />
+                <label className="block text-xs font-medium text-hv-foreground mb-1.5">Postal Code *</label>
+                <input name="postalCode" required className="w-full px-3.5 py-3 rounded-xl border border-hv-border bg-hv-bg text-sm text-hv-foreground placeholder:text-hv-muted focus:outline-2 focus:outline-hv-sky/40 min-h-[48px]" placeholder="94102" />
               </div>
             </div>
 

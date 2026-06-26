@@ -22,7 +22,7 @@ export const ToastContainer = () => {
   const removeToast = useToastStore((s) => s.removeToast);
 
   return (
-    <div className="fixed bottom-4 right-4 z-[100] flex flex-col gap-2 pointer-events-none" style={{ paddingBottom: 'env(safe-area-inset-bottom, 72px)' }}>
+    <div className="fixed bottom-4 left-4 right-4 z-[100] flex flex-col gap-2 pointer-events-none items-end" style={{ paddingBottom: 'env(safe-area-inset-bottom, 72px)' }} role="status" aria-live="polite" aria-label="Notifications">
       <AnimatePresence mode="popLayout">
         {toasts.map((toast) => {
           const Icon = icons[toast.type];
@@ -35,7 +35,7 @@ export const ToastContainer = () => {
               exit={{ opacity: 0, x: 100, scale: 0.95 }}
               transition={{ type: 'spring', stiffness: 400, damping: 25 }}
               className={cn(
-                'pointer-events-auto flex items-center gap-3 px-4 py-3 rounded-xl border shadow-elevated backdrop-blur-xl bg-white/90 min-w-[280px] max-w-[400px]',
+                'pointer-events-auto flex items-center gap-3 px-4 py-3 rounded-xl border shadow-elevated backdrop-blur-xl bg-white/90 min-w-0 w-full sm:min-w-[280px] sm:max-w-[400px]',
                 typeStyles[toast.type]
               )}
             >

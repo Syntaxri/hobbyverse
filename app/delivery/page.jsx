@@ -62,13 +62,13 @@ export default function DeliveryPage() {
           </Card>
         ) : (
           <>
-            <ScrollReveal className="mb-8">
+            <ScrollReveal className="mb-6 sm:mb-8">
               <div className="flex gap-1 bg-gray-100 rounded-xl p-1 w-fit">
                 {['active', 'completed'].map((tab) => (
                   <button
                     key={tab}
                     onClick={() => setActiveTab(tab)}
-                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                    className={`px-4 sm:px-5 py-2.5 rounded-lg text-sm font-medium transition-all min-h-[44px] ${
                       activeTab === tab
                         ? 'bg-white text-hv-foreground shadow-sm'
                         : 'text-hv-muted hover:text-hv-foreground'

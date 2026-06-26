@@ -31,17 +31,19 @@ export const ReturnScheduler = ({ rental, onSchedule, onCancel }) => {
         exit={{ y: '100%', opacity: 0 }}
         transition={{ type: 'spring', stiffness: 400, damping: 30 }}
         className="bg-white rounded-t-2xl sm:rounded-2xl w-full sm:max-w-sm shadow-elevated"
+        style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="p-6">
+        <div className="p-5 sm:p-6">
           <div className="flex items-center justify-between mb-5">
-            <div>
+            <div className="min-w-0">
               <h2 className="text-lg font-bold text-hv-foreground">Schedule Return</h2>
-              <p className="text-xs text-hv-muted mt-0.5">{rental?.productName}</p>
+              <p className="text-xs text-hv-muted mt-0.5 truncate">{rental?.productName}</p>
             </div>
             <button
               onClick={onCancel}
-              className="w-8 h-8 rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors"
+              className="w-10 h-10 rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors flex-shrink-0 ml-3"
+              aria-label="Close"
             >
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -61,7 +63,7 @@ export const ReturnScheduler = ({ rental, onSchedule, onCancel }) => {
               onChange={(e) => setDate(e.target.value)}
               min={minDate}
               required
-              className="w-full px-3.5 py-2.5 rounded-xl border border-hv-border bg-hv-bg text-sm text-hv-foreground focus:outline-2 focus:outline-hv-sky/40 mb-5"
+              className="w-full px-3.5 py-3 rounded-xl border border-hv-border bg-hv-bg text-sm text-hv-foreground focus:outline-2 focus:outline-hv-sky/40 min-h-[48px] mb-5"
             />
 
             <Button

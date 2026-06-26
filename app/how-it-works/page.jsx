@@ -65,27 +65,31 @@ export default function HowItWorksPage() {
       <Container>
         <SectionHeader subtitle="How It Works" title="Your Journey in Four Steps" />
 
-        <div className="space-y-6 md:space-y-8 max-w-4xl mx-auto">
+        <div className="space-y-5 sm:space-y-6 md:space-y-8 max-w-4xl mx-auto">
           {steps.map((step, i) => (
             <ScrollReveal key={step.number} delay={i * 0.1}>
-              <Card className="p-6 md:p-10 grid md:grid-cols-5 gap-6 md:gap-8 items-start" hoverEffect={false} padding={false}>
-                <div className="md:col-span-2 p-6 md:p-10 md:pr-0">
-                  <div className="flex items-center gap-4 mb-4">
-                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-hv-cyan to-hv-sky flex items-center justify-center">
-                      <step.icon className="w-5 h-5 text-white" />
+              <Card className="grid md:grid-cols-5 gap-0 items-start" hoverEffect={false} padding={false}>
+                <div className="md:col-span-2 p-5 sm:p-6 md:p-10 md:pr-0">
+                  <div className="flex items-center gap-3 sm:gap-4 mb-3 sm:mb-4">
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br from-hv-cyan to-hv-sky flex items-center justify-center flex-shrink-0">
+                      <step.icon className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
                     </div>
-                    <span className="text-5xl font-bold text-hv-foreground/80">
+                    <span className="text-3xl sm:text-4xl md:text-5xl font-bold text-hv-foreground/80">
                       {step.number}
                     </span>
                   </div>
                 </div>
-                <div className="md:col-span-3 p-6 md:p-10 md:pl-0">
-                  <h3 className="text-xl md:text-2xl font-bold text-hv-foreground mb-3">{step.title}</h3>
-                  <p className="text-hv-muted leading-relaxed mb-6 text-sm md:text-base">{step.description}</p>
-                  <ul className="grid grid-cols-2 gap-2">
+                <div className="md:col-span-3 p-5 sm:p-6 md:p-10 md:pl-0">
+                  <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-hv-foreground mb-2 sm:mb-3">
+                    {step.title}
+                  </h3>
+                  <p className="text-hv-muted leading-relaxed mb-4 sm:mb-6 text-sm md:text-base text-pretty">
+                    {step.description}
+                  </p>
+                  <ul className="grid grid-cols-1 xs:grid-cols-2 gap-2">
                     {step.details.map((detail) => (
                       <li key={detail} className="flex items-center gap-2 text-sm text-hv-foreground/60">
-                        <Icons.Check className="w-3.5 h-3.5 text-hv-cyan flex-shrink-0" />
+                        <Icons.Check className="w-3.5 h-3.5 text-hv-cyan flex-shrink-0 mt-0.5" />
                         {detail}
                       </li>
                     ))}

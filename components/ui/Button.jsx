@@ -16,10 +16,10 @@ const variants = {
 };
 
 const sizes = {
-  sm: 'px-3.5 py-1.5 text-xs min-h-[36px]',
-  md: 'px-5 py-2.5 text-sm min-h-[42px]',
-  lg: 'px-7 py-3.5 text-base min-h-[48px]',
-  xl: 'px-10 py-4 text-lg min-h-[54px]',
+  sm: 'px-4 py-2 text-xs min-h-[44px]',
+  md: 'px-5 py-2.5 text-sm min-h-[48px]',
+  lg: 'px-6 py-3 text-base min-h-[52px]',
+  xl: 'px-8 py-4 text-lg min-h-[56px]',
 };
 
 const Spinner = ({ className }) => (
@@ -48,9 +48,10 @@ export const Button = forwardRef(({
   const isDisabled = disabled || loading;
 
   const baseClasses = cn(
-    'inline-flex items-center justify-center rounded-xl font-medium transition-all duration-200',
+    'inline-flex items-center justify-center rounded-xl font-medium transition-all duration-200 select-none',
     'focus-visible:outline-2 focus-visible:outline-hv-sky/40 focus-visible:outline-offset-2',
-    'disabled:opacity-40 disabled:pointer-events-none select-none',
+    'active:scale-[0.97]',
+    'disabled:opacity-40 disabled:pointer-events-none',
     variants[variant], sizes[size], className
   );
 
@@ -82,7 +83,7 @@ export const Button = forwardRef(({
     return (
       <motion.button
         {...btnProps}
-        whileHover={{ scale: 1.04 }}
+        whileHover={{ scale: 1.03 }}
         whileTap={{ scale: 0.96 }}
         transition={{ type: 'spring', stiffness: 350, damping: 15, mass: 0.6 }}
       >
@@ -95,8 +96,8 @@ export const Button = forwardRef(({
     <motion.button
       {...btnProps}
       whileHover={{ scale: isDisabled ? 1 : 1.02 }}
-      whileTap={{ scale: isDisabled ? 1 : 0.98 }}
-      transition={{ duration: 0.2, ease: easeOut }}
+      whileTap={{ scale: isDisabled ? 1 : 0.97 }}
+      transition={{ duration: 0.15, ease: easeOut }}
     >
       {content}
     </motion.button>

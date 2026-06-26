@@ -57,11 +57,11 @@ export default function DashboardPage() {
           </div>
         </ScrollReveal>
 
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-12">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 mb-10 sm:mb-12">
           {stats.map((stat, i) => (
             <ScrollReveal key={stat.label} delay={i * 0.08}>
-              <Card className="p-6 text-center" hoverEffect={false}>
-                <div className={`text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r ${stat.color} mb-1`}>
+              <Card className="p-4 sm:p-6 text-center" hoverEffect={false}>
+                <div className={`text-2xl sm:text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r ${stat.color} mb-1`}>
                   {stat.value}
                 </div>
                 <div className="text-xs text-hv-muted">{stat.label}</div>
@@ -70,7 +70,7 @@ export default function DashboardPage() {
           ))}
         </div>
 
-        <div className="grid lg:grid-cols-3 gap-8">
+        <div className="grid lg:grid-cols-3 gap-6 sm:gap-8">
           <div className="lg:col-span-2">
             <h2 className="text-xl font-bold text-hv-foreground mb-6">Active Rentals</h2>
             {activeRentals.length === 0 && completedRentals.length === 0 ? (
@@ -88,23 +88,25 @@ export default function DashboardPage() {
                 {activeRentals.map((rental) => {
                   const img = getImageForRental(rental);
                   return (
-                    <Card key={rental.id} className="p-5 flex items-center gap-5" hoverEffect={false}>
-                      <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${img.gradient} flex items-center justify-center flex-shrink-0 overflow-hidden`}>
-                        {img.src ? (
-                          <img src={img.src} alt={rental.name} className="w-full h-full object-cover" />
-                        ) : (
-                          <span className="text-white/70 text-xs font-bold">{rental.name.slice(0, 2).toUpperCase()}</span>
-                        )}
-                      </div>
-                      <div className="flex-grow min-w-0">
-                        <h3 className="text-sm font-semibold text-hv-foreground truncate">{rental.name}</h3>
-                        <div className="flex items-center gap-3 mt-1">
-                          <Badge variant="cyan">{rental.duration}</Badge>
-                          <span className="text-xs text-hv-muted">${rental.price}/{rental.duration}</span>
+                    <Card key={rental.id} className="p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center gap-4" hoverEffect={false}>
+                      <div className="flex items-center gap-4 sm:gap-5 flex-grow min-w-0">
+                        <div className={`w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-gradient-to-br ${img.gradient} flex items-center justify-center flex-shrink-0 overflow-hidden`}>
+                          {img.src ? (
+                            <img src={img.src} alt={rental.name} className="w-full h-full object-cover" />
+                          ) : (
+                            <span className="text-white/70 text-xs font-bold">{rental.name.slice(0, 2).toUpperCase()}</span>
+                          )}
+                        </div>
+                        <div className="min-w-0">
+                          <h3 className="text-sm font-semibold text-hv-foreground truncate">{rental.name}</h3>
+                          <div className="flex items-center gap-2 sm:gap-3 mt-1 flex-wrap">
+                            <Badge variant="cyan">{rental.duration}</Badge>
+                            <span className="text-xs text-hv-muted">${rental.price}/{rental.duration}</span>
+                          </div>
                         </div>
                       </div>
-                      <div className="text-right flex-shrink-0">
-                        <div className="text-xs text-hv-muted mb-1">
+                      <div className="flex items-center justify-between sm:flex-col sm:items-end sm:text-right gap-2 sm:gap-1 flex-shrink-0 pl-0 sm:pl-4">
+                        <div className="text-xs text-hv-muted sm:mb-1">
                           Due {new Date(rental.endDate).toLocaleDateString()}
                         </div>
                         <Button variant="ghost" size="sm" onClick={() => {

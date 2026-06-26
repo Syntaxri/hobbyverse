@@ -1,6 +1,84 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
+export const RENTAL_DEFAULTS = {
+  id: '',
+  productId: '',
+  name: 'Unknown Rental',
+  productName: 'Unknown Rental',
+  image: '/images/placeholder.webp',
+  productImage: '/images/placeholder.webp',
+  gradient: 'from-gray-100 to-gray-200',
+  productGradient: 'from-gray-100 to-gray-200',
+  category: '',
+  status: 'unknown',
+  duration: '',
+  price: 0,
+  endDate: '',
+  rentalPeriod: {
+    startDate: '',
+    endDate: '',
+    duration: '',
+    price: 0,
+    quantity: 1,
+  },
+  delivery: {
+    method: '',
+    address: { fullName: '', phone: '', street: '', city: '', postalCode: '' },
+    scheduledDate: '',
+    trackingId: '',
+    carrier: '',
+  },
+  return: { scheduledPickupDate: null, status: 'pending' },
+  timeline: [],
+  createdAt: '',
+};
+
+export function normalizeRental(raw) {
+  if (!raw || typeof raw !== 'object') return { ...RENTAL_DEFAULTS };
+
+  const name = raw.name || raw.productName || RENTAL_DEFAULTS.name;
+  const image = raw.image || raw.productImage || RENTAL_DEFAULTS.image;
+  const gradient = raw.gradient || raw.productGradient || RENTAL_DEFAULTS.gradient;
+  const rp = raw.rentalPeriod || RENTAL_DEFAULTS.rentalPeriod;
+
+  return {
+    ...RENTAL_DEFAULTS,
+    ...raw,
+    name,
+    productName: name,
+    image,
+    productImage: image,
+    gradient,
+    productGradient: gradient,
+    duration: raw.duration || rp.duration || RENTAL_DEFAULTS.duration,
+    price: raw.price != null ? raw.price : (rp.price != null ? rp.price : RENTAL_DEFAULTS.price),
+    endDate: raw.endDate || rp.endDate || RENTAL_DEFAULTS.endDate,
+    rentalPeriod: {
+      ...RENTAL_DEFAULTS.rentalPeriod,
+      ...rp,
+    },
+    delivery: {
+      ...RENTAL_DEFAULTS.delivery,
+      ...(raw.delivery || {}),
+      address: {
+        ...RENTAL_DEFAULTS.delivery.address,
+        ...((raw.delivery && raw.delivery.address) || {}),
+      },
+    },
+    return: {
+      ...RENTAL_DEFAULTS.return,
+      ...(raw.return || {}),
+    },
+    timeline: Array.isArray(raw.timeline) ? raw.timeline : RENTAL_DEFAULTS.timeline,
+  };
+}
+
+export function normalizeRentals(rentals) {
+  if (!Array.isArray(rentals)) return [];
+  return rentals.map(normalizeRental);
+}
+
 const STATUS_ORDER = [
   'CONFIRMED',
   'PACKING',
@@ -49,7 +127,7 @@ export const useRentalStore = create(
         const endDate = addDays(startDate, (dayMap[duration] || 7) * quantity);
         const price = product[duration] || product.weekly;
 
-        const rental = {
+        const raw = {
           id,
           productId: product.id,
           productName: product.name,
@@ -76,6 +154,7 @@ export const useRentalStore = create(
           createdAt: now(),
         };
 
+        const rental = normalizeRental(raw);
         set((state) => ({ rentals: [...state.rentals, rental] }));
         return id;
       },
@@ -143,12 +222,15 @@ export const useRentalStore = create(
       isFavorite: (productId) => get().favorites.includes(productId),
 
       getActiveRentals: () =>
-        get().rentals.filter((r) => r.status !== 'RETURNED'),
+        normalizeRentals(get().rentals).filter((r) => r.status !== 'RETURNED'),
 
       getCompletedRentals: () =>
-        get().rentals.filter((r) => r.status === 'RETURNED'),
+        normalizeRentals(get().rentals).filter((r) => r.status === 'RETURNED'),
 
-      getRentalById: (id) => get().rentals.find((r) => r.id === id),
+      getRentalById: (id) => {
+        const r = get().rentals.find((r) => r.id === id);
+        return r ? normalizeRental(r) : null;
+      },
 
       simulateNextStatus: (rentalId) => {
         const rental = get().rentals.find((r) => r.id === rentalId);
@@ -173,9 +255,11 @@ export const useRentalStore = create(
         for (const r of state.rentals) {
           if (seen.has(r.id)) continue;
           seen.set(r.id, true);
-          deduped.push(r);
+          deduped.push(normalizeRental(r));
         }
         if (deduped.length !== state.rentals.length) {
+          state.rentals = deduped;
+        } else {
           state.rentals = deduped;
         }
       },

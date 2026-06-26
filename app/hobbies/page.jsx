@@ -91,10 +91,10 @@ function HobbiesContent() {
             <p className="text-hv-muted">No equipment found matching your criteria.</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 md:gap-6">
-            {filtered.map((product, i) => (
-              <ScrollReveal key={product.id} delay={i * 0.05}>
-                <NavLink href={`/product/${product.id}`}>
+          <ScrollReveal>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5 md:gap-6">
+              {filtered.map((product) => (
+                <NavLink key={product.id} href={`/product/${product.id}`}>
                   <Card className="p-0 overflow-hidden group cursor-pointer" hoverEffect padding={false}>
                     <div className="relative overflow-hidden">
                       <ProductImage
@@ -148,9 +148,9 @@ function HobbiesContent() {
                     </div>
                   </Card>
                 </NavLink>
-              </ScrollReveal>
-            ))}
-          </div>
+              ))}
+            </div>
+          </ScrollReveal>
         )}
 
         <ScrollReveal className="text-center mt-8 text-xs text-hv-muted">

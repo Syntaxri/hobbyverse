@@ -165,7 +165,7 @@ export default function ProductDetailPage() {
 
             <div className="bg-white rounded-2xl border border-hv-border p-6 mb-8 shadow-card">
               <div className="flex items-baseline gap-1 mb-6">
-                <span className="text-4xl md:text-5xl font-black text-hv-foreground">${price}</span>
+                <span className="text-3xl sm:text-4xl md:text-5xl font-black text-hv-foreground">${price}</span>
                 <span className="text-hv-muted">{durations.find((d) => d.id === selectedDuration)?.suffix}</span>
               </div>
 
@@ -174,14 +174,14 @@ export default function ProductDetailPage() {
                   <button
                     key={d.id}
                     onClick={() => setSelectedDuration(d.id)}
-                    className={`flex-1 px-4 py-3 rounded-xl text-sm font-medium transition-all min-h-[48px] ${
+                    className={`flex-1 px-3 sm:px-4 py-3 rounded-xl text-sm font-medium transition-all min-h-[48px] ${
                       selectedDuration === d.id
                         ? 'bg-gradient-to-r from-hv-cyan to-hv-sky text-white shadow-md'
                         : 'bg-hv-bg text-hv-muted hover:bg-hv-border/50'
                     }`}
                   >
-                    {d.label}
-                    <div className="text-xs opacity-70">${product[d.id]}</div>
+                    <span className="block leading-tight">{d.label}</span>
+                    <span className="text-xs opacity-70">${product[d.id]}</span>
                   </button>
                 ))}
               </div>
@@ -191,13 +191,13 @@ export default function ProductDetailPage() {
                 <div className="flex items-center gap-3">
                   <button
                     onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                    className="w-10 h-10 rounded-full bg-hv-bg border border-hv-border flex items-center justify-center hover:border-hv-cyan transition-colors text-sm text-hv-foreground"
+                    className="w-11 h-11 rounded-full bg-hv-bg border border-hv-border flex items-center justify-center hover:border-hv-cyan hover:bg-hv-cyan/5 transition-colors text-base text-hv-foreground active:scale-90"
                     aria-label="Decrease quantity"
                   >-</button>
-                  <span className="text-lg font-semibold text-hv-foreground w-10 text-center">{quantity}</span>
+                  <span className="text-lg font-semibold text-hv-foreground w-10 text-center select-none">{quantity}</span>
                   <button
                     onClick={() => setQuantity(quantity + 1)}
-                    className="w-10 h-10 rounded-full bg-hv-bg border border-hv-border flex items-center justify-center hover:border-hv-cyan transition-colors text-sm text-hv-foreground"
+                    className="w-11 h-11 rounded-full bg-hv-bg border border-hv-border flex items-center justify-center hover:border-hv-cyan hover:bg-hv-cyan/5 transition-colors text-base text-hv-foreground active:scale-90"
                     aria-label="Increase quantity"
                   >+</button>
                 </div>
@@ -247,10 +247,10 @@ export default function ProductDetailPage() {
         {related.length > 0 && (
           <div>
             <h2 className="text-2xl font-bold text-hv-foreground mb-8">Related Equipment</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {related.map((item, i) => (
-                <ScrollReveal key={item.id} delay={i * 0.1}>
-                  <NavLink href={`/product/${item.id}`}>
+            <ScrollReveal>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {related.map((item) => (
+                  <NavLink key={item.id} href={`/product/${item.id}`}>
                     <Card className="p-0 overflow-hidden group cursor-pointer" hoverEffect padding={false}>
                       <div className="relative overflow-hidden">
                         <ProductImage product={item} className="w-full" aspect="4/3" />
@@ -264,9 +264,9 @@ export default function ProductDetailPage() {
                       </div>
                     </Card>
                   </NavLink>
-                </ScrollReveal>
-              ))}
-            </div>
+                ))}
+              </div>
+            </ScrollReveal>
           </div>
         )}
 

@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState, useEffect } from 'react';
+import { useRef } from 'react';
 import { motion, useMotionValue, useSpring } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { useHoverPhysics } from '@/components/interaction/useHoverPhysics';
@@ -15,6 +15,7 @@ export const Card = ({
   const performanceTier = useAppStore((s) => s.performanceTier);
   const intensity = useInteractionStore((s) => s.intensity);
   const { ref, handlers, springConfig } = useHoverPhysics({ stiffness: 250, damping: 20 });
+  const isMobile = useAppStore((s) => s.isMobile);
 
   const rotateX = useMotionValue(0);
   const rotateY = useMotionValue(0);
@@ -45,15 +46,15 @@ export const Card = ({
       onMouseLeave={isMotion ? handleMouseLeave : undefined}
       onHoverStart={() => useInteractionStore.getState().setHovered(id || null, 'card')}
       onHoverEnd={() => useInteractionStore.getState().clearHovered()}
-      {...(isMotion && hoverEffect && performanceTier !== 'low' ? {
-        whileHover: { y: -6, scale: 1.015 },
+      {...(isMotion && hoverEffect && performanceTier !== 'low' && !isMobile ? {
+        whileHover: { y: -4, scale: 1.01 },
         transition: springConfig,
       } : {})}
       style={tilt ? { perspective: 800, rotateX: smoothRotateX, rotateY: smoothRotateY } : undefined}
       className={cn(
         'relative overflow-hidden rounded-card bg-white/70 backdrop-blur-sm border border-hv-border/80 shadow-card',
-        hoverEffect && 'hover:shadow-hover cursor-pointer',
-        padding && 'p-6',
+        hoverEffect && 'md:hover:shadow-hover md:hover:cursor-pointer',
+        padding && 'p-5 sm:p-6',
         className
       )}
     >

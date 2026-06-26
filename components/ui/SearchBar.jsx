@@ -24,7 +24,7 @@ export const SearchBar = ({ className, onSearch, placeholder = 'Search equipment
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.8 }}
             onClick={() => setIsOpen(true)}
-            className="w-9 h-9 rounded-xl bg-white/70 border border-hv-border flex items-center justify-center hover:bg-white hover:shadow-soft transition-all"
+            className="w-11 h-11 rounded-xl bg-white/70 border border-hv-border flex items-center justify-center hover:bg-white hover:shadow-soft transition-all min-touch"
             aria-label="Open search"
           >
             <Icons.Search className="w-4 h-4 text-hv-muted" />
@@ -32,11 +32,11 @@ export const SearchBar = ({ className, onSearch, placeholder = 'Search equipment
         ) : (
           <motion.form
             key="search-form"
-            initial={{ width: 36, opacity: 0 }}
-            animate={{ width: 280, opacity: 1 }}
-            exit={{ width: 36, opacity: 0 }}
+            initial={{ width: 44, opacity: 0 }}
+            animate={{ width: '100%', opacity: 1 }}
+            exit={{ width: 44, opacity: 0 }}
             onSubmit={handleSubmit}
-            className="relative"
+            className="relative sm:w-[280px]"
           >
             <input
               ref={inputRef}
@@ -45,14 +45,15 @@ export const SearchBar = ({ className, onSearch, placeholder = 'Search equipment
               onChange={(e) => setQuery(e.target.value)}
               placeholder={placeholder}
               onBlur={() => { if (!query) setIsOpen(false); }}
-              className="w-full bg-white border border-hv-border rounded-xl pl-9 pr-8 py-2 text-sm text-hv-foreground placeholder-hv-muted/60 focus:outline-none focus:border-hv-cyan focus:ring-2 focus:ring-hv-cyan/20 transition-all shadow-soft"
+              className="w-full bg-white border border-hv-border rounded-xl pl-10 pr-9 py-3 text-sm text-hv-foreground placeholder-hv-muted/60 focus:outline-none focus:border-hv-cyan focus:ring-2 focus:ring-hv-cyan/20 transition-all shadow-soft min-h-[44px]"
             />
-            <Icons.Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-4 h-4 text-hv-muted" />
+            <Icons.Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-hv-muted" />
             {query && (
               <button
                 type="button"
                 onClick={() => { setQuery(''); setIsOpen(false); }}
-                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-hv-muted hover:text-hv-foreground"
+                className="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center text-hv-muted hover:text-hv-foreground rounded-lg hover:bg-hv-border/50"
+                aria-label="Clear search"
               >
                 <Icons.XMark className="w-4 h-4" />
               </button>

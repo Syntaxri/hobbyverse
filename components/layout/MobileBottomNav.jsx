@@ -16,9 +16,9 @@ const RIPPLE_DURATION = 600;
 const Ripple = ({ x, y }) => (
   <motion.span
     className="absolute rounded-full bg-hv-sky/15 pointer-events-none"
-    style={{ left: x - 8, top: y - 8, width: 16, height: 16 }}
+    style={{ left: x - 10, top: y - 10, width: 20, height: 20 }}
     initial={{ scale: 0, opacity: 0.6 }}
-    animate={{ scale: 12, opacity: 0 }}
+    animate={{ scale: 10, opacity: 0 }}
     exit={{ opacity: 0 }}
     transition={{ duration: RIPPLE_DURATION / 1000, ease: 'easeOut' }}
   />
@@ -73,7 +73,7 @@ export const MobileBottomNav = () => {
         animate={reducedMotion ? {} : { y: [2, -2, 0] }}
         transition={{ duration: 0.4, ease: 'easeOut' }}
       >
-        <div className="flex items-center justify-around px-1 py-1">
+        <div className="flex items-center justify-around px-1 py-0.5">
           {items.map((item) => {
             const isActive = pathname === item.href || (item.href !== '/' && pathname.startsWith(item.href));
             const isLoading = navLoading === item.id;
@@ -85,7 +85,7 @@ export const MobileBottomNav = () => {
                 onClick={(e) => handleTap(e, item.id)}
                 showLoading={false}
                 className={cn(
-                  'relative flex flex-col items-center justify-center gap-0.5 py-1.5 px-3 rounded-xl transition-colors min-w-[56px] min-h-[52px] overflow-hidden',
+                  'relative flex flex-col items-center justify-center gap-0.5 py-2 px-3 rounded-xl transition-colors min-w-[64px] min-h-[56px] overflow-hidden',
                   isActive ? 'text-hv-sky' : 'text-hv-muted hover:text-hv-foreground',
                   isLoading && 'opacity-70'
                 )}

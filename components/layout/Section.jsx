@@ -8,7 +8,7 @@ export const Section = ({ children, className, contained = true, id, compact = f
       id={id}
       className={cn(
         'relative w-full',
-        compact ? 'py-16 md:py-20' : 'py-20 md:py-28',
+        compact ? 'py-12 md:py-16' : 'py-16 md:py-20 lg:py-28',
         className
       )}
     >

@@ -12,15 +12,15 @@ export const RouteChangeLoader = () => {
 
   const startProgress = useCallback(() => {
     setVisible(true);
-    setProgress(0);
+    setProgress(30);
     const step = () => {
       setProgress((p) => {
         if (p >= 90) return p;
-        const increment = Math.max(2, (90 - p) * 0.08);
+        const increment = Math.max(1, (90 - p) * 0.06);
         return Math.min(90, p + increment);
       });
     };
-    intervalRef.current = setInterval(step, 80);
+    intervalRef.current = setInterval(step, 100);
   }, []);
 
   const finishProgress = useCallback(() => {
@@ -55,9 +55,11 @@ export const RouteChangeLoader = () => {
 
   return (
     <div
-      className="fixed top-0 left-0 right-0 z-[100] h-[3px] pointer-events-none"
+      className="route-loader-bar fixed top-0 left-0 right-0 z-[100] h-[3px] pointer-events-none"
       role="progressbar"
       aria-valuenow={progress}
+      aria-valuemin={0}
+      aria-valuemax={100}
       aria-label="Page loading"
     >
       <div

@@ -13,8 +13,18 @@ export const InteractionProvider = ({ children }) => {
   const prevScrollY = useRef(0);
   const prevTime = useRef(0);
   const fpsFrames = useRef([]);
+  const isMobile = useRef(false);
 
   useEffect(() => {
+    const mq = window.matchMedia('(hover: none) and (pointer: coarse)');
+    isMobile.current = mq.matches;
+    const handler = (e) => { isMobile.current = e.matches; };
+    mq.addEventListener('change', handler);
+    return () => mq.removeEventListener('change', handler);
+  }, []);
+
+  useEffect(() => {
+    if (isMobile.current) return;
     let raf;
 
     const tick = (time) => {
@@ -52,6 +62,7 @@ export const InteractionProvider = ({ children }) => {
   }, [setScroll, setIntensity]);
 
   useEffect(() => {
+    if (isMobile.current) return;
     const handler = (e) => {
       const x = e.clientX / window.innerWidth;
       const y = e.clientY / window.innerHeight;
