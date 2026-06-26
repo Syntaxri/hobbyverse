@@ -1,5 +1,6 @@
 'use client';
 
+import { memo } from 'react';
 import { Container } from '@/components/layout/Container';
 import { Section } from '@/components/layout/Section';
 import { SectionHeader } from '@/components/layout/SectionHeader';
@@ -42,7 +43,7 @@ const journeys = [
   },
 ];
 
-export const HobbyJourneys = () => (
+export const HobbyJourneys = memo(() => (
   <Section>
     <Container>
       <SectionHeader
@@ -89,4 +90,4 @@ export const HobbyJourneys = () => (
       </div>
     </Container>
   </Section>
-);
+));

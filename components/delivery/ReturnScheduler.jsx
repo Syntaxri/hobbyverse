@@ -2,13 +2,16 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import { Button } from '@/components/ui/Button';
 
 export const ReturnScheduler = ({ rental, onSchedule, onCancel }) => {
   const [date, setDate] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!date) return;
+    if (!date || isSubmitting) return;
+    setIsSubmitting(true);
     onSchedule(rental.id, date);
   };
 
@@ -61,13 +64,15 @@ export const ReturnScheduler = ({ rental, onSchedule, onCancel }) => {
               className="w-full px-3.5 py-2.5 rounded-xl border border-hv-border bg-hv-bg text-sm text-hv-foreground focus:outline-2 focus:outline-hv-sky/40 mb-5"
             />
 
-            <button
+            <Button
               type="submit"
+              className="w-full"
               disabled={!date}
-              className="w-full py-3 rounded-xl text-sm font-semibold text-white bg-gradient-to-r from-hv-cyan to-hv-sky shadow-soft hover:shadow-elevated transition-all disabled:opacity-40"
+              loading={isSubmitting}
+              loadingText="Scheduling..."
             >
               Schedule Pickup
-            </button>
+            </Button>
           </form>
         </div>
       </motion.div>

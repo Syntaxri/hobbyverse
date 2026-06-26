@@ -1,7 +1,6 @@
 'use client';
 
 import { useRef, useState, useCallback } from 'react';
-import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
@@ -9,6 +8,8 @@ import { Icons } from '@/components/icons';
 import { useInteractionStore } from '@/lib/interaction-store';
 import { useScrollIntelligence } from '@/components/interaction/useScrollIntelligence';
 import { useCartStore } from '@/store/useCartStore';
+import { useNavigation } from '@/components/ui/NavigationProvider';
+import { NavLink } from '@/components/ui/NavLink';
 
 const RIPPLE_DURATION = 600;
 
@@ -34,7 +35,9 @@ const items = [
 export const MobileBottomNav = () => {
   const pathname = usePathname();
   const { reducedMotion } = useScrollIntelligence();
+  const { startNavigation } = useNavigation();
   const [ripples, setRipples] = useState({});
+  const [navLoading, setNavLoading] = useState(null);
   const totalItems = useCartStore((s) => s.totalItems);
 
   const addRipple = useCallback((id, x, y) => {
@@ -54,9 +57,11 @@ export const MobileBottomNav = () => {
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
     addRipple(itemId, x, y);
+    setNavLoading(itemId);
+    startNavigation();
     useInteractionStore.getState().setHovered(itemId, 'bottom-nav');
     setTimeout(() => useInteractionStore.getState().clearHovered(), 300);
-  }, [addRipple]);
+  }, [addRipple, startNavigation]);
 
   return (
     <nav
@@ -71,15 +76,18 @@ export const MobileBottomNav = () => {
         <div className="flex items-center justify-around px-1 py-1">
           {items.map((item) => {
             const isActive = pathname === item.href || (item.href !== '/' && pathname.startsWith(item.href));
+            const isLoading = navLoading === item.id;
             const Icon = item.icon;
             return (
-              <Link
+              <NavLink
                 key={item.id}
                 href={item.href}
                 onClick={(e) => handleTap(e, item.id)}
+                showLoading={false}
                 className={cn(
                   'relative flex flex-col items-center justify-center gap-0.5 py-1.5 px-3 rounded-xl transition-colors min-w-[56px] min-h-[52px] overflow-hidden',
-                  isActive ? 'text-hv-sky' : 'text-hv-muted hover:text-hv-foreground'
+                  isActive ? 'text-hv-sky' : 'text-hv-muted hover:text-hv-foreground',
+                  isLoading && 'opacity-70'
                 )}
               >
                 <AnimatePresence>
@@ -97,12 +105,25 @@ export const MobileBottomNav = () => {
                     transition={{ type: 'spring', stiffness: 400, damping: 30 }}
                   />
                 )}
+
+                {isLoading && (
+                  <motion.div
+                    initial={{ scale: 0, opacity: 0.6 }}
+                    animate={{ scale: 6, opacity: 0 }}
+                    transition={{ duration: 0.4, ease: 'easeOut' }}
+                    className="absolute inset-0 bg-hv-cyan/10 rounded-xl pointer-events-none"
+                  />
+                )}
+
                 <span className="relative z-10">
                   <Icon className="w-5 h-5" />
                   {item.id === 'rentals' && totalItems > 0 && (
                     <span className="absolute -top-1 -right-1.5 w-3.5 h-3.5 rounded-full bg-hv-coral text-white text-[8px] font-bold flex items-center justify-center">
                       {totalItems > 9 ? '9+' : totalItems}
                     </span>
+                  )}
+                  {isLoading && (
+                    <span className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-hv-cyan animate-ping" />
                   )}
                 </span>
                 <span className={cn('relative z-10 text-[10px] font-medium leading-tight', isActive ? 'font-semibold' : '')}>
@@ -115,7 +136,7 @@ export const MobileBottomNav = () => {
                     transition={{ type: 'spring', stiffness: 400, damping: 30 }}
                   />
                 )}
-              </Link>
+              </NavLink>
             );
           })}
         </div>

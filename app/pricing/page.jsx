@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Container } from '@/components/layout/Container';
 import { Section } from '@/components/layout/Section';
@@ -59,10 +60,14 @@ const plans = [
 export default function PricingPage() {
   const router = useRouter();
   const addToast = useToastStore((s) => s.addToast);
+  const [selectedPlan, setSelectedPlan] = useState(null);
 
   const handleSelect = (planName) => {
+    setSelectedPlan(planName);
     addToast(`Subscribed to ${planName} plan!`, 'success');
-    router.push('/hobbies');
+    setTimeout(() => {
+      router.push('/hobbies');
+    }, 300);
   };
 
   return (
@@ -73,7 +78,7 @@ export default function PricingPage() {
         <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
           {plans.map((plan, i) => (
             <ScrollReveal key={plan.plan} delay={i * 0.15}>
-              <PricingCard {...plan} onSelect={() => handleSelect(plan.plan)} />
+              <PricingCard {...plan} loading={selectedPlan === plan.plan} onSelect={() => handleSelect(plan.plan)} />
             </ScrollReveal>
           ))}
         </div>

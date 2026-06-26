@@ -1,15 +1,16 @@
 'use client';
 
-import Link from 'next/link';
+import { memo } from 'react';
 import { Container } from '@/components/layout/Container';
 import { Section } from '@/components/layout/Section';
 import { SectionHeader } from '@/components/layout/SectionHeader';
 import { Card } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 import { ScrollReveal } from '@/components/motion/ScrollReveals';
+import { NavLink } from '@/components/ui/NavLink';
 import { categories } from '@/data/categories';
 
-export const CategoriesGrid = () => {
+export const CategoriesGrid = memo(() => {
   return (
     <Section>
       <Container>
@@ -17,15 +18,15 @@ export const CategoriesGrid = () => {
           subtitle="Categories"
           title="Explore Popular Hobby Realms"
           action={
-            <Link href="/hobbies" className="text-sm font-medium text-hv-sky hover:text-hv-cyan transition-colors">
+            <NavLink href="/hobbies" className="text-sm font-medium text-hv-sky hover:text-hv-cyan transition-colors">
               View All Categories &rarr;
-            </Link>
+            </NavLink>
           }
         />
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 md:gap-6">
           {categories.map((category, i) => (
             <ScrollReveal key={category.id} delay={i * 0.08}>
-              <Link href={`/hobbies?category=${category.id}`}>
+              <NavLink href={`/hobbies?category=${category.id}`}>
                 <Card className="p-0 overflow-hidden group cursor-pointer" hoverEffect padding={false}>
                   <div
                     className={`aspect-square bg-gradient-to-br ${category.gradient} flex items-center justify-center relative overflow-hidden`}
@@ -55,11 +56,11 @@ export const CategoriesGrid = () => {
                     </div>
                   </div>
                 </Card>
-              </Link>
+              </NavLink>
             </ScrollReveal>
           ))}
         </div>
-      </Container>
-    </Section>
+    </Container>
+  </Section>
   );
-};
+});

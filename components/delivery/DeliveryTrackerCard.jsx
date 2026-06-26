@@ -11,6 +11,8 @@ import { RentalTimeline } from './RentalTimeline';
 
 export const DeliveryTrackerCard = ({ rental, onReturn }) => {
   const [expanded, setExpanded] = useState(false);
+  const [isScheduling, setIsScheduling] = useState(false);
+  const [scheduleId, setScheduleId] = useState(null);
 
   const totalDays = Math.ceil(
     (new Date(rental.rentalPeriod.endDate) - new Date(rental.rentalPeriod.startDate)) /
@@ -124,8 +126,11 @@ export const DeliveryTrackerCard = ({ rental, onReturn }) => {
                           size="sm"
                           onClick={(e) => {
                             e.stopPropagation();
+                            setScheduleId(rental.id);
                             onReturn(rental);
                           }}
+                          loading={scheduleId === rental.id}
+                          loadingText="Opening..."
                         >
                           Schedule Return
                         </Button>

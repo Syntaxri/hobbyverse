@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils';
 import { Button } from './Button';
 import { Icons } from '@/components/icons';
 
-export const PricingCard = ({ plan, price, period = '/week', description, features, featured, onSelect }) => (
+export const PricingCard = ({ plan, price, period = '/week', description, features, featured, onSelect, loading }) => (
   <motion.div
     whileHover={{ y: -6 }}
     transition={{ type: 'spring', stiffness: 300, damping: 20 }}
@@ -33,7 +33,7 @@ export const PricingCard = ({ plan, price, period = '/week', description, featur
         </li>
       ))}
     </ul>
-    <Button variant={featured ? 'primary' : 'secondary'} className="w-full" onClick={onSelect}>
+    <Button variant={featured ? 'primary' : 'secondary'} className="w-full" onClick={onSelect} loading={loading} loadingText="Processing...">
       {featured ? 'Start Renting' : 'Choose Plan'}
     </Button>
   </motion.div>

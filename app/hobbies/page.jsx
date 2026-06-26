@@ -2,8 +2,8 @@
 
 import { useState, useMemo, useCallback, useEffect, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
-import Link from 'next/link';
 import { Container } from '@/components/layout/Container';
+import { NavLink } from '@/components/ui/NavLink';
 import { Section } from '@/components/layout/Section';
 import { Card } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
@@ -27,6 +27,7 @@ function HobbiesContent() {
   const [searchQuery, setSearchQuery] = useState('');
   const addItem = useCartStore((s) => s.addItem);
   const addToast = useToastStore((s) => s.addToast);
+  const [rentingId, setRentingId] = useState(null);
 
   useEffect(() => {
     setActiveCategory(categoryParam);
@@ -57,8 +58,10 @@ function HobbiesContent() {
   const handleQuickRent = useCallback((e, product) => {
     e.preventDefault();
     e.stopPropagation();
+    setRentingId(product.id);
     addItem(product, 'weekly', 1);
     addToast(`${product.name} added to cart`, 'success');
+    setTimeout(() => setRentingId(null), 600);
   }, [addItem, addToast]);
 
   return (
@@ -91,7 +94,7 @@ function HobbiesContent() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 md:gap-6">
             {filtered.map((product, i) => (
               <ScrollReveal key={product.id} delay={i * 0.05}>
-                <Link href={`/product/${product.id}`}>
+                <NavLink href={`/product/${product.id}`}>
                   <Card className="p-0 overflow-hidden group cursor-pointer" hoverEffect padding={false}>
                     <div className="relative overflow-hidden">
                       <ProductImage
@@ -135,6 +138,8 @@ function HobbiesContent() {
                             size="sm"
                             onClick={(e) => handleQuickRent(e, product)}
                             disabled={!product.available}
+                            loading={rentingId === product.id}
+                            loadingText="Adding..."
                           >
                             Rent
                           </Button>
@@ -142,7 +147,7 @@ function HobbiesContent() {
                       </div>
                     </div>
                   </Card>
-                </Link>
+                </NavLink>
               </ScrollReveal>
             ))}
           </div>

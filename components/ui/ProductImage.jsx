@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useMemo } from 'react';
+import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import { getCategoryFallbackGradient } from '@/lib/getProduct';
 
@@ -48,14 +49,36 @@ function getCategoryIconPath(categoryId) {
   return iconSvgs[iconName] || iconSvgs.BookOpen;
 }
 
-export const ProductImage = ({ src, alt, gradient, product, category, className, aspect = '4/3' }) => {
+const ShimmerOverlay = () => (
+  <div
+    className="absolute inset-0 opacity-30"
+    style={{
+      backgroundImage: 'linear-gradient(105deg, transparent 30%, rgba(255,255,255,0.4) 50%, transparent 70%)',
+      backgroundSize: '200% 100%',
+      animation: 'shimmer 2.5s ease-in-out infinite',
+    }}
+  />
+);
+
+const FallbackContent = ({ category, alt }) => (
+  <div className="relative z-10 flex flex-col items-center gap-3 p-4 text-center">
+    <svg className="w-8 h-8 text-white/60" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1}>
+      <path strokeLinecap="round" strokeLinejoin="round" d={getCategoryIconPath(category)} />
+    </svg>
+    <span className="text-xs font-semibold text-white/80 leading-tight max-w-[90%]">
+      {alt || getInitials('Product')}
+    </span>
+  </div>
+);
+
+export const ProductImage = ({ src, alt, gradient, product, category, className, aspect = '4/3', priority = false }) => {
   const [loaded, setLoaded] = useState(false);
   const [error, setError] = useState(false);
 
-  const resolvedSrc = src || product?.image || '';
-  const resolvedAlt = alt || product?.name || '';
-  const resolvedCategory = category || product?.category || '';
-  const resolvedGradient = gradient || product?.gradient || getCategoryFallbackGradient(resolvedCategory);
+  const resolvedSrc = useMemo(() => src || product?.image || '', [src, product]);
+  const resolvedAlt = useMemo(() => alt || product?.name || '', [alt, product]);
+  const resolvedCategory = useMemo(() => category || product?.category || '', [category, product]);
+  const resolvedGradient = useMemo(() => gradient || product?.gradient || getCategoryFallbackGradient(resolvedCategory), [gradient, product, resolvedCategory]);
 
   const bgColor = gradientColorMap[resolvedGradient] || '#94a3b8';
 
@@ -64,85 +87,61 @@ export const ProductImage = ({ src, alt, gradient, product, category, className,
 
   const isFallback = !resolvedSrc || error;
 
+  const containerStyle = useMemo(() => ({
+    aspectRatio: aspect,
+    backgroundColor: bgColor,
+    backgroundImage: `linear-gradient(135deg, ${bgColor}22, ${bgColor}44)`,
+  }), [aspect, bgColor]);
+
   if (isFallback) {
     return (
-      <div
-        className={cn('relative overflow-hidden flex items-center justify-center', className)}
-        style={{
-          aspectRatio: aspect,
-          backgroundColor: bgColor,
-          backgroundImage: `linear-gradient(135deg, ${bgColor}22, ${bgColor}44)`,
-        }}
-      >
-        <div
-          className="absolute inset-0 opacity-30"
-          style={{
-            backgroundImage: `linear-gradient(105deg, transparent 30%, rgba(255,255,255,0.4) 50%, transparent 70%)`,
-            backgroundSize: '200% 100%',
-            animation: 'shimmer 2.5s ease-in-out infinite',
-          }}
-        />
-        <div className="relative z-10 flex flex-col items-center gap-3 p-4 text-center">
-          <svg
-            className="w-8 h-8 text-white/60"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth={1}
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" d={getCategoryIconPath(resolvedCategory)} />
-          </svg>
-          <span className="text-xs font-semibold text-white/80 leading-tight max-w-[90%]">
-            {resolvedAlt || getInitials('Product')}
-          </span>
-        </div>
+      <div className={cn('relative overflow-hidden flex items-center justify-center', className)} style={containerStyle}>
+        <ShimmerOverlay />
+        <FallbackContent category={resolvedCategory} alt={resolvedAlt} />
       </div>
     );
   }
 
   return (
-    <div
-      className={cn('relative overflow-hidden', className)}
-      style={{
-        aspectRatio: aspect,
-        backgroundColor: bgColor,
-        backgroundImage: `linear-gradient(135deg, ${bgColor}22, ${bgColor}44)`,
-      }}
-    >
+    <div className={cn('relative overflow-hidden', className)} style={containerStyle}>
       {!loaded && (
         <div className="absolute inset-0">
-          <div
-            className="absolute inset-0 opacity-30"
-            style={{
-              backgroundImage: `linear-gradient(105deg, transparent 30%, rgba(255,255,255,0.4) 50%, transparent 70%)`,
-              backgroundSize: '200% 100%',
-              animation: 'shimmer 2.5s ease-in-out infinite',
-            }}
-          />
+          <ShimmerOverlay />
           <div className="absolute inset-0 flex items-center justify-center">
-            <svg
-              className="w-8 h-8 text-white/40"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={1}
-            >
+            <svg className="w-8 h-8 text-white/40" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1}>
               <path strokeLinecap="round" strokeLinejoin="round" d={getCategoryIconPath(resolvedCategory)} />
             </svg>
           </div>
         </div>
       )}
-      <img
-        src={resolvedSrc}
-        alt={resolvedAlt}
-        loading="lazy"
-        onLoad={handleLoad}
-        onError={handleError}
-        className={cn(
-          'w-full h-full object-cover transition-all duration-500',
-          loaded ? 'opacity-100 scale-100' : 'opacity-0 scale-105'
-        )}
-      />
+      {resolvedSrc.startsWith('/') ? (
+        <Image
+          src={resolvedSrc}
+          alt={resolvedAlt}
+          fill
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+          loading={priority ? undefined : 'lazy'}
+          priority={priority}
+          onLoad={handleLoad}
+          onError={handleError}
+          className={cn(
+            'object-cover transition-all duration-500',
+            loaded ? 'opacity-100 scale-100' : 'opacity-0 scale-105'
+          )}
+        />
+      ) : (
+        <img
+          src={resolvedSrc}
+          alt={resolvedAlt}
+          loading="lazy"
+          onLoad={handleLoad}
+          onError={handleError}
+          className={cn(
+            'w-full h-full object-cover transition-all duration-500',
+            loaded ? 'opacity-100 scale-100' : 'opacity-0 scale-105'
+          )}
+        />
+      )}
     </div>
   );
 };

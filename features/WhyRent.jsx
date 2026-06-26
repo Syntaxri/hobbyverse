@@ -1,5 +1,6 @@
 'use client';
 
+import { memo } from 'react';
 import { Container } from '@/components/layout/Container';
 import { Section } from '@/components/layout/Section';
 import { SectionHeader } from '@/components/layout/SectionHeader';
@@ -41,7 +42,7 @@ const stats = [
   { id: 'stat-4', value: '94%', label: 'Would rent again' },
 ];
 
-export const WhyRent = () => (
+export const WhyRent = memo(() => (
   <Section>
     <Container>
       <SectionHeader
@@ -103,4 +104,4 @@ export const WhyRent = () => (
       </div>
     </Container>
   </Section>
-);
+));

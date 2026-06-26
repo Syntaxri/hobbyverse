@@ -1,9 +1,11 @@
 'use client';
 
+import { memo } from 'react';
 import { motion } from 'framer-motion';
-import Link from 'next/link';
 import { Container } from '@/components/layout/Container';
+import { Section } from '@/components/layout/Section';
 import { Button } from '@/components/ui/Button';
+import { NavLink } from '@/components/ui/NavLink';
 import { Icons } from '@/components/icons';
 
 const easeOut = [0.16, 1, 0.3, 1];
@@ -37,7 +39,7 @@ const FloatingHobbyCard = ({ Icon, label, color, delay, index }) => (
   </motion.div>
 );
 
-export const HeroSection = () => (
+export const HeroSection = memo(() => (
   <section className="relative min-h-[90vh] flex items-center overflow-hidden pt-28">
     <div className="absolute inset-0 bg-gradient-to-br from-blue-50/60 via-white to-purple-50/30 pointer-events-none" />
     <div className="absolute top-1/4 -left-20 w-[500px] h-[500px] rounded-full bg-gradient-to-br from-hv-sky/6 to-transparent blur-[120px] pointer-events-none" />
@@ -88,18 +90,18 @@ export const HeroSection = () => (
             transition={{ duration: 0.5, delay: 0.45, ease: easeOut }}
             className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-10"
           >
-            <Link href="/explore">
+            <NavLink href="/explore">
               <Button variant="primary" size="xl" magnetic>
                 Explore Hobbies
                 <Icons.ArrowRight className="w-4 h-4 ml-2" />
               </Button>
-            </Link>
-            <Link href="/hobbies">
+            </NavLink>
+            <NavLink href="/hobbies">
               <Button variant="secondary" size="xl">
                 Browse Equipment
                 <Icons.Search className="w-4 h-4 ml-2" />
               </Button>
-            </Link>
+            </NavLink>
           </motion.div>
 
           <motion.div
@@ -169,4 +171,4 @@ export const HeroSection = () => (
 
     <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-hv-bg to-transparent pointer-events-none" />
   </section>
-);
+));

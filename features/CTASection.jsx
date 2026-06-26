@@ -1,13 +1,14 @@
 'use client';
 
-import Link from 'next/link';
+import { memo } from 'react';
 import { Container } from '@/components/layout/Container';
 import { Section } from '@/components/layout/Section';
 import { Button } from '@/components/ui/Button';
+import { NavLink } from '@/components/ui/NavLink';
 import { ScrollReveal } from '@/components/motion/ScrollReveals';
 import { Icons } from '@/components/icons';
 
-export const FinalCTA = () => (
+export const FinalCTA = memo(() => (
   <Section className="relative overflow-hidden">
     <div className="absolute inset-0 bg-gradient-to-b from-hv-cyan/5 via-hv-lavender/5 to-transparent pointer-events-none" />
     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full bg-hv-cyan/5 blur-[120px] pointer-events-none" />
@@ -31,18 +32,18 @@ export const FinalCTA = () => (
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <Link href="/explore">
+          <NavLink href="/explore">
             <Button variant="primary" size="xl" magnetic>
               Explore Hobbies
               <Icons.ArrowRight className="w-4 h-4 ml-2" />
             </Button>
-          </Link>
-          <Link href="/hobbies">
+          </NavLink>
+          <NavLink href="/hobbies">
             <Button variant="secondary" size="xl">
               Browse Equipment
               <Icons.Search className="w-4 h-4 ml-2" />
             </Button>
-          </Link>
+          </NavLink>
         </div>
 
         <div className="mt-10 flex flex-wrap items-center justify-center gap-5 text-xs text-hv-muted">
@@ -53,4 +54,4 @@ export const FinalCTA = () => (
       </ScrollReveal>
     </Container>
   </Section>
-);
+));

@@ -1,10 +1,15 @@
 'use client';
 
+import { useState } from 'react';
 import { motion } from 'framer-motion';
+import { Button } from '@/components/ui/Button';
 
 export const AddressForm = ({ product, duration, price, quantity, onSubmit, onCancel }) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (isSubmitting) return;
     const form = e.currentTarget;
     const data = {
       fullName: form.fullName.value.trim(),
@@ -14,6 +19,7 @@ export const AddressForm = ({ product, duration, price, quantity, onSubmit, onCa
       postalCode: form.postalCode.value.trim(),
     };
     if (!data.fullName || !data.phone || !data.street || !data.city || !data.postalCode) return;
+    setIsSubmitting(true);
     onSubmit(data);
   };
 
@@ -85,12 +91,15 @@ export const AddressForm = ({ product, duration, price, quantity, onSubmit, onCa
               </div>
             </div>
 
-            <button
+            <Button
               type="submit"
-              className="w-full py-3 rounded-xl text-sm font-semibold text-white bg-gradient-to-r from-hv-sky to-hv-indigo shadow-soft hover:shadow-elevated hover:brightness-105 transition-all mt-2"
+              className="w-full mt-2"
+              size="lg"
+              loading={isSubmitting}
+              loadingText="Confirming..."
             >
               Confirm Rental
-            </button>
+            </Button>
           </form>
         </div>
       </motion.div>

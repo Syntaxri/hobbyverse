@@ -1,5 +1,6 @@
 'use client';
 
+import { memo } from 'react';
 import { Container } from '@/components/layout/Container';
 import { Section } from '@/components/layout/Section';
 import { SectionHeader } from '@/components/layout/SectionHeader';
@@ -34,7 +35,7 @@ const concerns = [
   },
 ];
 
-export const DiscoverWithoutRisk = () => (
+export const DiscoverWithoutRisk = memo(() => (
   <Section>
     <Container>
       <SectionHeader
@@ -76,4 +77,4 @@ export const DiscoverWithoutRisk = () => (
       </ScrollReveal>
     </Container>
   </Section>
-);
+));

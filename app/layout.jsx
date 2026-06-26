@@ -7,6 +7,10 @@ import { SmoothScroll } from '@/components/motion/SmoothScroll';
 import { InteractionProvider } from '@/components/interaction/InteractionProvider';
 import { CursorFollower } from '@/components/interaction/CursorFollower';
 import { ToastContainer } from '@/components/ui/ToastContainer';
+import { Suspense } from 'react';
+import { NavigationProvider } from '@/components/ui/NavigationProvider';
+import { RouteChangeLoader } from '@/components/ui/RouteChangeLoader';
+import { PageTransition } from '@/components/motion/PageTransition';
 import { generateMetadata } from '@/lib/seo';
 export const metadata = generateMetadata({});
 
@@ -19,21 +23,24 @@ export default function RootLayout({ children }) {
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
       </head>
       <body className="bg-hv-bg text-hv-foreground">
-        <InteractionProvider>
-          <CursorFollower />
-          <SmoothScroll>
-            <Navbar />
-            <main className="relative z-10 flex flex-col min-h-screen pb-[72px] md:pb-0">
-              {children}
-              <Footer />
-            </main>
-            <MobileBottomNav />
-            <div className="fixed inset-0 pointer-events-none" style={{ zIndex: -10 }}>
-              <SceneRoot />
-            </div>
-          </SmoothScroll>
-          <ToastContainer />
-        </InteractionProvider>
+        <NavigationProvider>
+          <Suspense fallback={null}><RouteChangeLoader /></Suspense>
+          <InteractionProvider>
+            <CursorFollower />
+            <SmoothScroll>
+              <Navbar />
+              <main className="relative z-10 flex flex-col min-h-screen pb-[72px] md:pb-0">
+                <PageTransition>{children}</PageTransition>
+                <Footer />
+              </main>
+              <MobileBottomNav />
+              <div className="fixed inset-0 pointer-events-none" style={{ zIndex: -10 }}>
+                <SceneRoot />
+              </div>
+            </SmoothScroll>
+            <ToastContainer />
+          </InteractionProvider>
+        </NavigationProvider>
       </body>
     </html>
   );

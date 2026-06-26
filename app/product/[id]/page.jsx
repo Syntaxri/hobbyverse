@@ -1,12 +1,12 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Container } from '@/components/layout/Container';
 import { Section } from '@/components/layout/Section';
 import { Button } from '@/components/ui/Button';
+import { NavLink } from '@/components/ui/NavLink';
 import { Badge } from '@/components/ui/Badge';
 import { Rating } from '@/components/ui/Rating';
 import { Card } from '@/components/ui/Card';
@@ -33,6 +33,7 @@ export default function ProductDetailPage() {
   const [addedToCart, setAddedToCart] = useState(false);
   const [showAddressForm, setShowAddressForm] = useState(false);
   const [isCreating, setIsCreating] = useState(false);
+  const [isTogglingFav, setIsTogglingFav] = useState(false);
 
   const addItem = useCartStore((s) => s.addItem);
   const toggleFavorite = useRentalStore((s) => s.toggleFavorite);
@@ -43,33 +44,37 @@ export default function ProductDetailPage() {
   const isFav = product ? favorites.includes(product.id) : false;
 
   const handleAddToCart = useCallback(() => {
-    if (!product) return;
+    if (!product || addedToCart) return;
     addItem(product, selectedDuration, quantity);
     setAddedToCart(true);
     addToast(`${product.name} added to cart`, 'success');
     setTimeout(() => setAddedToCart(false), 2000);
-  }, [product, selectedDuration, quantity, addItem, addToast]);
+  }, [product, selectedDuration, quantity, addItem, addToast, addedToCart]);
 
   const handleToggleFavorite = useCallback(() => {
-    if (!product) return;
+    if (!product || isTogglingFav) return;
+    setIsTogglingFav(true);
     toggleFavorite(product.id);
     const nowFav = !isFav;
     addToast(nowFav ? 'Added to favorites' : 'Removed from favorites', nowFav ? 'success' : 'info');
-  }, [product, toggleFavorite, isFav, addToast]);
+    setTimeout(() => setIsTogglingFav(false), 500);
+  }, [product, toggleFavorite, isFav, addToast, isTogglingFav]);
 
   const handleRentNow = useCallback(() => {
-    if (!product?.available) return;
+    if (!product?.available || isCreating) return;
     setShowAddressForm(true);
-  }, [product]);
+  }, [product, isCreating]);
 
   const handleAddressSubmit = useCallback((address) => {
     if (!product) return;
     setIsCreating(true);
-    createRental(product, selectedDuration, quantity, address);
-    addToast('Rental confirmed!', 'success');
-    setShowAddressForm(false);
-    setIsCreating(false);
-    router.push('/delivery');
+    setTimeout(() => {
+      createRental(product, selectedDuration, quantity, address);
+      addToast('Rental confirmed!', 'success');
+      setShowAddressForm(false);
+      setIsCreating(false);
+      router.push('/delivery');
+    }, 300);
   }, [product, selectedDuration, quantity, createRental, addToast, router]);
 
   if (!product) {
@@ -81,9 +86,9 @@ export default function ProductDetailPage() {
           </div>
           <h1 className="text-3xl font-bold text-hv-foreground mb-4">Equipment Not Found</h1>
           <p className="text-hv-muted mb-8">This item may have been removed or is no longer available.</p>
-          <Link href="/hobbies">
+          <NavLink href="/hobbies">
             <Button variant="secondary">Browse Equipment</Button>
-          </Link>
+          </NavLink>
         </Container>
       </Section>
     );
@@ -209,8 +214,10 @@ export default function ProductDetailPage() {
                 size="lg"
                 onClick={handleRentNow}
                 disabled={!product.available || isCreating}
+                loading={isCreating}
+                loadingText="Creating Rental..."
               >
-                {isCreating ? 'Creating Rental...' : 'Rent Now'}
+                Rent Now
               </Button>
               <Button
                 variant="secondary"
@@ -218,13 +225,18 @@ export default function ProductDetailPage() {
                 size="lg"
                 onClick={handleAddToCart}
                 disabled={!product.available || addedToCart}
+                loading={addedToCart}
+                loadingText="Added to Cart"
               >
-                {addedToCart ? 'Added to Cart' : 'Add to Cart'}
+                Add to Cart
               </Button>
               <Button
                 variant="ghost"
                 className="w-full text-sm"
                 onClick={handleToggleFavorite}
+                disabled={isTogglingFav}
+                loading={isTogglingFav}
+                loadingText={isFav ? 'Removing...' : 'Adding...'}
               >
                 {isFav ? 'Remove from Favorites' : 'Add to Favorites'}
               </Button>
@@ -238,7 +250,7 @@ export default function ProductDetailPage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {related.map((item, i) => (
                 <ScrollReveal key={item.id} delay={i * 0.1}>
-                  <Link href={`/product/${item.id}`}>
+                  <NavLink href={`/product/${item.id}`}>
                     <Card className="p-0 overflow-hidden group cursor-pointer" hoverEffect padding={false}>
                       <div className="relative overflow-hidden">
                         <ProductImage product={item} className="w-full" aspect="4/3" />
@@ -251,7 +263,7 @@ export default function ProductDetailPage() {
                         </div>
                       </div>
                     </Card>
-                  </Link>
+                  </NavLink>
                 </ScrollReveal>
               ))}
             </div>

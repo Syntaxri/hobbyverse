@@ -1,11 +1,12 @@
 'use client';
 
-import Link from 'next/link';
+import { useState } from 'react';
 import { Container } from '@/components/layout/Container';
 import { Section } from '@/components/layout/Section';
 import { Card } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
+import { NavLink } from '@/components/ui/NavLink';
 import { ScrollReveal } from '@/components/motion/ScrollReveals';
 import { useCartStore } from '@/store/useCartStore';
 import { useRentalStore } from '@/store/useRentalStore';
@@ -27,6 +28,7 @@ export default function DashboardPage() {
   const completeReturn = useRentalStore((s) => s.completeReturn);
   const addToast = useToastStore((s) => s.addToast);
   const { items: cartItems } = useCartStore();
+  const [returningId, setReturningId] = useState(null);
 
   const activeRentals = rentals.filter((r) => r.status !== 'RETURNED');
   const completedRentals = rentals.filter((r) => r.status === 'RETURNED');
@@ -77,9 +79,9 @@ export default function DashboardPage() {
                   <Icons.ShoppingBag className="w-6 h-6 text-hv-cyan" />
                 </div>
                 <p className="text-hv-muted mb-4">No active rentals</p>
-                <Link href="/hobbies">
+                <NavLink href="/hobbies">
                   <Button variant="secondary" size="sm">Browse Equipment</Button>
-                </Link>
+                </NavLink>
               </Card>
             ) : (
               <div className="space-y-4">
@@ -106,9 +108,11 @@ export default function DashboardPage() {
                           Due {new Date(rental.endDate).toLocaleDateString()}
                         </div>
                         <Button variant="ghost" size="sm" onClick={() => {
+                          setReturningId(rental.id);
                           completeReturn(rental.id);
                           addToast('Return initiated', 'success');
-                        }}>
+                          setTimeout(() => setReturningId(null), 600);
+                        }} loading={returningId === rental.id} loadingText="Returning...">
                           Return
                         </Button>
                       </div>

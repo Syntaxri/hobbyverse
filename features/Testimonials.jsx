@@ -1,5 +1,6 @@
 'use client';
 
+import { memo } from 'react';
 import { Container } from '@/components/layout/Container';
 import { Section } from '@/components/layout/Section';
 import { SectionHeader } from '@/components/layout/SectionHeader';
@@ -9,7 +10,7 @@ import { Badge } from '@/components/ui/Badge';
 import { ScrollReveal } from '@/components/motion/ScrollReveals';
 import { testimonials } from '@/data/testimonials';
 
-export const TestimonialSection = () => (
+export const TestimonialSection = memo(() => (
   <Section>
     <Container>
       <SectionHeader subtitle="Testimonials" title="What Our Community Says" />
@@ -37,4 +38,4 @@ export const TestimonialSection = () => (
       </div>
     </Container>
   </Section>
-);
+));

@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { Container } from './Container';
+import { NavLink } from '@/components/ui/NavLink';
 
 const footerLinks = [
   {
@@ -42,12 +43,12 @@ export const Footer = () => (
     <Container className="py-16">
       <div className="grid grid-cols-2 md:grid-cols-4 gap-10">
         <div className="col-span-2 md:col-span-1">
-          <Link href="/" className="inline-flex items-center gap-2 mb-4">
+          <NavLink href="/" className="inline-flex items-center gap-2 mb-4" activeClassName="">
             <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-hv-cyan to-hv-sky flex items-center justify-center">
               <span className="w-2 h-2 bg-white rounded-sm" />
             </div>
             <span className="text-base font-bold text-hv-foreground">HobbyVerse</span>
-          </Link>
+          </NavLink>
           <p className="text-sm text-hv-muted leading-relaxed max-w-xs">
             Discover your passion before making a major investment. Rent premium equipment and explore new skills.
           </p>
@@ -58,9 +59,15 @@ export const Footer = () => (
             <ul className="space-y-2.5">
               {group.links.map((link) => (
                 <li key={link.name}>
-                  <Link href={link.href} className="text-sm text-hv-muted hover:text-hv-foreground transition-colors">
-                    {link.name}
-                  </Link>
+                  {link.href === '#' ? (
+                    <Link href="#" className="text-sm text-hv-muted hover:text-hv-foreground transition-colors">
+                      {link.name}
+                    </Link>
+                  ) : (
+                    <NavLink href={link.href} className="text-sm text-hv-muted hover:text-hv-foreground transition-colors">
+                      {link.name}
+                    </NavLink>
+                  )}
                 </li>
               ))}
             </ul>

@@ -6,13 +6,13 @@ import { Container } from '@/components/layout/Container';
 import { Section } from '@/components/layout/Section';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
+import { NavLink } from '@/components/ui/NavLink';
 import { ScrollReveal } from '@/components/motion/ScrollReveals';
 import { DeliveryTrackerCard } from '@/components/delivery/DeliveryTrackerCard';
 import { ReturnScheduler } from '@/components/delivery/ReturnScheduler';
 import { useRentalStore } from '@/store/useRentalStore';
 import { useToastStore } from '@/store/useToastStore';
 import { Icons } from '@/components/icons';
-import Link from 'next/link';
 
 export default function DeliveryPage() {
   const rentals = useRentalStore((s) => s.rentals);
@@ -56,9 +56,9 @@ export default function DeliveryPage() {
             <p className="text-sm text-hv-muted mb-6 max-w-md mx-auto">
               Rent your first piece of equipment and track every step of the delivery journey here.
             </p>
-            <Link href="/hobbies">
+            <NavLink href="/hobbies">
               <Button variant="primary">Browse Equipment</Button>
-            </Link>
+            </NavLink>
           </Card>
         ) : (
           <>

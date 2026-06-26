@@ -1,5 +1,6 @@
 'use client';
 
+import { memo } from 'react';
 import { Container } from '@/components/layout/Container';
 import { Section } from '@/components/layout/Section';
 import { SectionHeader } from '@/components/layout/SectionHeader';
@@ -30,7 +31,7 @@ const steps = [
   },
 ];
 
-export const HowItWorks = () => (
+export const HowItWorks = memo(() => (
   <Section>
     <Container>
       <SectionHeader subtitle="Simple Process" title="How HobbyVerse Works" />
@@ -50,4 +51,4 @@ export const HowItWorks = () => (
       </div>
     </Container>
   </Section>
-);
+));
