@@ -14,14 +14,26 @@ export const CursorFollower = () => {
   const dotRef = useRef(null);
   const ringRef = useRef(null);
   const pos = useRef({ x: 0, y: 0 });
+  const cursorRef = useRef(cursor);
+  const hoveredTypeRef = useRef(hoveredType);
+  const intensityRef = useRef(intensity);
+
+  useEffect(() => {
+    cursorRef.current = cursor;
+    hoveredTypeRef.current = hoveredType;
+    intensityRef.current = intensity;
+  });
 
   useEffect(() => {
     if (performanceTier === 'low') return;
 
     let raf;
     const tick = () => {
-      const tx = cursor.x * window.innerWidth;
-      const ty = cursor.y * window.innerHeight;
+      const c = cursorRef.current;
+      const h = hoveredTypeRef.current;
+      const inten = intensityRef.current;
+      const tx = c.x * window.innerWidth;
+      const ty = c.y * window.innerHeight;
       pos.current.x += (tx - pos.current.x) * TARGET_LERP;
       pos.current.y += (ty - pos.current.y) * TARGET_LERP;
 
@@ -29,18 +41,18 @@ export const CursorFollower = () => {
         dotRef.current.style.transform = `translate3d(${pos.current.x}px, ${pos.current.y}px, 0) translate(-50%, -50%)`;
       }
       if (ringRef.current) {
-        const isHover = hoveredType === 'card' || hoveredType === 'button';
+        const isHover = h === 'card' || h === 'button';
         const scale = isHover ? 3 : 1;
         const opacity = isHover ? 0.15 : 0.4;
         ringRef.current.style.transform = `translate3d(${pos.current.x}px, ${pos.current.y}px, 0) translate(-50%, -50%) scale(${scale})`;
-        ringRef.current.style.opacity = opacity * intensity;
+        ringRef.current.style.opacity = opacity * inten;
       }
       raf = requestAnimationFrame(tick);
     };
 
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, [cursor, hoveredType, intensity, performanceTier]);
+  }, [performanceTier]);
 
   if (performanceTier === 'low') return null;
 

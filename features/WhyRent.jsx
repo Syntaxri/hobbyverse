@@ -38,7 +38,7 @@ function getRentalPrice(productId) {
 const stats = [
   { id: 'stat-1', value: '78%', label: 'Try before buying' },
   { id: 'stat-2', value: '3.2x', label: 'More hobbies explored' },
-  { id: 'stat-3', value: '$2.4k', label: 'Average savings' },
+  { id: 'stat-3', value: '2.4k DH', label: 'Average savings' },
   { id: 'stat-4', value: '94%', label: 'Would rent again' },
 ];
 
@@ -66,7 +66,7 @@ export const WhyRent = memo(() => (
                   </div>
 
                   <div className="flex items-baseline gap-2 mb-1">
-                    <span className="text-2xl font-black text-hv-coral">${item.buyPrice.toLocaleString()}</span>
+                    <span className="text-2xl font-black text-hv-coral">{item.buyPrice.toLocaleString()} DH</span>
                     <span className="text-xs text-hv-muted">to buy</span>
                   </div>
 
@@ -74,7 +74,7 @@ export const WhyRent = memo(() => (
 
                   <div className="flex items-baseline gap-2 mb-3">
                     <span className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-hv-cyan to-hv-sky">
-                      ${rentalPrice}
+                      {rentalPrice} DH
                     </span>
                     <span className="text-xs text-hv-muted">/day to rent</span>
                   </div>

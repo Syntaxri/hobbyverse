@@ -96,7 +96,7 @@ export const DeliveryTrackerCard = ({ rental, onReturn }) => {
                       </div>
                       <div className="flex justify-between">
                         <span className="text-hv-muted">Price</span>
-                        <span className="text-hv-foreground font-medium">${rental.rentalPeriod.price}/{rental.rentalPeriod.duration}</span>
+                        <span className="text-hv-foreground font-medium">{rental.rentalPeriod.price} DH/{rental.rentalPeriod.duration}</span>
                       </div>
                       <div className="flex justify-between">
                         <span className="text-hv-muted">Tracking</span>

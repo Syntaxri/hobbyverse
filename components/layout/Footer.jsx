@@ -11,7 +11,6 @@ const footerLinks = [
       { name: 'Books', href: '/hobbies?category=books' },
       { name: 'Music', href: '/hobbies?category=music' },
       { name: 'Photography', href: '/hobbies?category=photography' },
-      { name: 'Art & Design', href: '/hobbies?category=art' },
       { name: 'Technology', href: '/hobbies?category=technology' },
       { name: 'Astronomy', href: '/hobbies?category=astronomy' },
       { name: 'Surfing', href: '/hobbies?category=surfing' },

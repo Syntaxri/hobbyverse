@@ -13,29 +13,42 @@ export const InteractionBridge = () => {
   const focusIntensity = useInteractionStore((s) => s.focusIntensity);
 
   const distortionRef = useRef(null);
+  const cacheRef = useRef(null);
+  const pullVec = useRef(new THREE.Vector3());
+  const cursorVec = useRef(new THREE.Vector3());
 
-  useFrame((_state, delta) => {
-    const cursorVec = new THREE.Vector3(
+  useFrame(() => {
+    if (!cacheRef.current) {
+      const meshes = [];
+      scene.traverse((child) => {
+        if (child.isMesh && child.material && child.material.userData.distortable) {
+          if (!child.userData.originalPosition) {
+            child.userData.originalPosition = child.position.clone();
+          }
+          meshes.push(child);
+        }
+      });
+      cacheRef.current = meshes;
+    }
+
+    const meshes = cacheRef.current;
+    cursorVec.current.set(
       (cursor.x - 0.5) * 2,
       (cursor.y - 0.5) * 2,
       0
     );
-    const distLength = cursorVec.length();
+    const distLength = cursorVec.current.length();
     const distStrength = Math.min(distLength * intensity * 0.15, 0.3);
 
-    scene.traverse((child) => {
-      if (child.isMesh && child.material && child.material.userData.distortable) {
-        const originalPos = child.userData.originalPosition || child.position.clone();
-        if (!child.userData.originalPosition) {
-          child.userData.originalPosition = child.position.clone();
-        }
-        const pull = new THREE.Vector3()
-          .copy(cursorVec)
-          .multiplyScalar(distStrength * 0.02);
-        child.position.x = originalPos.x + pull.x;
-        child.position.y = originalPos.y + pull.y;
-      }
-    });
+    for (let i = 0; i < meshes.length; i++) {
+      const child = meshes[i];
+      const originalPos = child.userData.originalPosition;
+      pullVec.current
+        .copy(cursorVec.current)
+        .multiplyScalar(distStrength * 0.02);
+      child.position.x = originalPos.x + pullVec.current.x;
+      child.position.y = originalPos.y + pullVec.current.y;
+    }
 
     if (distortionRef.current) {
       const targetScale = 1 + distStrength * 0.3;

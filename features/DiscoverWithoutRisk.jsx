@@ -24,12 +24,12 @@ const concerns = [
   {
     icon: Icons.Telescope,
     title: 'I want to try astronomy but telescopes are expensive.',
-    solution: 'Rent a telescope for $15/day instead of spending $1,200. Test it under real night skies first.',
+    solution: 'Rent a telescope for 15 DH/day instead of spending 1,200 DH. Test it under real night skies first.',
     color: 'from-indigo-100 to-purple-100',
   },
   {
     icon: Icons.Sparkles,
-    title: 'I don\'t want to spend $2,000 on equipment.',
+    title: 'I don\'t want to spend 2,000 DH on equipment.',
     solution: 'You don\'t have to. Rent premium gear for a fraction of the cost. Only buy if you truly love the hobby.',
     color: 'from-amber-100 to-yellow-100',
   },

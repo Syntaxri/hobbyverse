@@ -59,37 +59,37 @@ export const AddressForm = ({ product, duration, price, quantity, onSubmit, onCa
 
           <div className="flex items-center justify-between bg-gray-50 rounded-xl px-4 py-3 mb-6">
             <div>
-              <span className="text-sm font-semibold text-hv-foreground">${price}</span>
+              <span className="text-sm font-semibold text-hv-foreground">{price} DH</span>
               <span className="text-xs text-hv-muted ml-1">/ {duration} &times; {quantity}</span>
             </div>
-            <span className="text-sm font-bold text-hv-foreground">${(price * quantity).toLocaleString()}</span>
+            <span className="text-sm font-bold text-hv-foreground">{(price * quantity).toLocaleString()} DH</span>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-medium text-hv-foreground mb-1.5">Full Name *</label>
-                <input name="fullName" required className="w-full px-3.5 py-3 rounded-xl border border-hv-border bg-hv-bg text-sm text-hv-foreground placeholder:text-hv-muted focus:outline-2 focus:outline-hv-sky/40 min-h-[48px]" placeholder="John Doe" />
+                <label htmlFor="address-fullName" className="block text-xs font-medium text-hv-foreground mb-1.5">Full Name *</label>
+                <input id="address-fullName" name="fullName" autoComplete="name" required className="w-full px-3.5 py-3 rounded-xl border border-hv-border bg-hv-bg text-sm text-hv-foreground placeholder:text-hv-muted focus:outline-2 focus:outline-hv-sky/40 min-h-[48px]" placeholder="John Doe" />
               </div>
               <div>
-                <label className="block text-xs font-medium text-hv-foreground mb-1.5">Phone *</label>
-                <input name="phone" type="tel" required className="w-full px-3.5 py-3 rounded-xl border border-hv-border bg-hv-bg text-sm text-hv-foreground placeholder:text-hv-muted focus:outline-2 focus:outline-hv-sky/40 min-h-[48px]" placeholder="+1 555-0123" />
+                <label htmlFor="address-phone" className="block text-xs font-medium text-hv-foreground mb-1.5">Phone *</label>
+                <input id="address-phone" name="phone" type="tel" autoComplete="tel" required className="w-full px-3.5 py-3 rounded-xl border border-hv-border bg-hv-bg text-sm text-hv-foreground placeholder:text-hv-muted focus:outline-2 focus:outline-hv-sky/40 min-h-[48px]" placeholder="+1 555-0123" />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-hv-foreground mb-1.5">Street Address *</label>
-              <input name="street" required className="w-full px-3.5 py-3 rounded-xl border border-hv-border bg-hv-bg text-sm text-hv-foreground placeholder:text-hv-muted focus:outline-2 focus:outline-hv-sky/40 min-h-[48px]" placeholder="123 Main St" />
+              <label htmlFor="address-street" className="block text-xs font-medium text-hv-foreground mb-1.5">Street Address *</label>
+              <input id="address-street" name="street" autoComplete="street-address" required className="w-full px-3.5 py-3 rounded-xl border border-hv-border bg-hv-bg text-sm text-hv-foreground placeholder:text-hv-muted focus:outline-2 focus:outline-hv-sky/40 min-h-[48px]" placeholder="123 Main St" />
             </div>
 
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-medium text-hv-foreground mb-1.5">City *</label>
-                <input name="city" required className="w-full px-3.5 py-3 rounded-xl border border-hv-border bg-hv-bg text-sm text-hv-foreground placeholder:text-hv-muted focus:outline-2 focus:outline-hv-sky/40 min-h-[48px]" placeholder="San Francisco" />
+                <label htmlFor="address-city" className="block text-xs font-medium text-hv-foreground mb-1.5">City *</label>
+                <input id="address-city" name="city" autoComplete="address-level2" required className="w-full px-3.5 py-3 rounded-xl border border-hv-border bg-hv-bg text-sm text-hv-foreground placeholder:text-hv-muted focus:outline-2 focus:outline-hv-sky/40 min-h-[48px]" placeholder="San Francisco" />
               </div>
               <div>
-                <label className="block text-xs font-medium text-hv-foreground mb-1.5">Postal Code *</label>
-                <input name="postalCode" required className="w-full px-3.5 py-3 rounded-xl border border-hv-border bg-hv-bg text-sm text-hv-foreground placeholder:text-hv-muted focus:outline-2 focus:outline-hv-sky/40 min-h-[48px]" placeholder="94102" />
+                <label htmlFor="address-postalCode" className="block text-xs font-medium text-hv-foreground mb-1.5">Postal Code *</label>
+                <input id="address-postalCode" name="postalCode" autoComplete="postal-code" required className="w-full px-3.5 py-3 rounded-xl border border-hv-border bg-hv-bg text-sm text-hv-foreground placeholder:text-hv-muted focus:outline-2 focus:outline-hv-sky/40 min-h-[48px]" placeholder="94102" />
               </div>
             </div>
 

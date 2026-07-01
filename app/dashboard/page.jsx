@@ -101,7 +101,7 @@ export default function DashboardPage() {
                           <h3 className="text-sm font-semibold text-hv-foreground truncate">{rental.name}</h3>
                           <div className="flex items-center gap-2 sm:gap-3 mt-1 flex-wrap">
                             <Badge variant="cyan">{rental.duration}</Badge>
-                            <span className="text-xs text-hv-muted">${rental.price}/{rental.duration}</span>
+                            <span className="text-xs text-hv-muted">{rental.price} DH/{rental.duration}</span>
                           </div>
                         </div>
                       </div>
@@ -149,7 +149,7 @@ export default function DashboardPage() {
                       </div>
                       <div className="min-w-0 flex-grow">
                         <div className="text-xs font-medium text-hv-foreground truncate">{rental.name}</div>
-                        <div className="text-[10px] text-hv-muted">{rental.duration} &middot; ${rental.price}</div>
+                        <div className="text-[10px] text-hv-muted">{rental.duration} &middot; {rental.price} DH</div>
                       </div>
                       <Badge variant="default" className="flex-shrink-0">Returned</Badge>
                     </Card>

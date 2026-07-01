@@ -1,4 +1,5 @@
 import '@/styles/globals.css';
+import { Inter } from 'next/font/google';
 import { Navbar } from '@/components/layout/Navbar';
 import { MobileBottomNav } from '@/components/layout/MobileBottomNav';
 import { Footer } from '@/components/layout/Footer';
@@ -8,23 +9,29 @@ import { CursorFollower } from '@/components/interaction/CursorFollower';
 import { ToastContainer } from '@/components/ui/ToastContainer';
 import { ErrorBoundary } from '@/components/ui/ErrorBoundary';
 import { SceneBackground } from '@/components/three/SceneBackground';
+import { AccessibilitySetup } from '@/components/ui/AccessibilitySetup';
 import { Suspense } from 'react';
 import { NavigationProvider } from '@/components/ui/NavigationProvider';
 import { RouteChangeLoader } from '@/components/ui/RouteChangeLoader';
 import { PageTransition } from '@/components/motion/PageTransition';
 import { generateMetadata } from '@/lib/seo';
+
+const inter = Inter({
+  subsets: ['latin'],
+  display: 'swap',
+  weight: ['300', '400', '500', '600', '700', '800', '900'],
+});
+
 export const metadata = generateMetadata({});
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className="antialiased scroll-smooth">
+    <html lang="en" className={`${inter.className} antialiased scroll-smooth`}>
       <head>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%233EE6FF%22/><text y=%22.75em%22 font-size=%2270%22 x=%22.5em%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22>H</text></svg>" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
       </head>
       <body className="bg-hv-bg text-hv-foreground">
+        <AccessibilitySetup />
         <NavigationProvider>
           <Suspense fallback={null}><RouteChangeLoader /></Suspense>
           <InteractionProvider>

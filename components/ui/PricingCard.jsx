@@ -21,7 +21,7 @@ export const PricingCard = ({ plan, price, period = '/week', description, featur
     )}
     <h3 className="text-base font-semibold text-hv-foreground mb-1">{plan}</h3>
     <div className="flex items-baseline gap-1 mb-4">
-      <span className="text-3xl sm:text-4xl font-black text-hv-foreground">${price}</span>
+      <span className="text-3xl sm:text-4xl font-black text-hv-foreground">{price} DH</span>
       <span className="text-sm text-hv-muted">{period}</span>
     </div>
     <p className="text-sm text-hv-muted mb-5 sm:mb-6 leading-relaxed">{description}</p>

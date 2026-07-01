@@ -36,18 +36,6 @@ export const categories = [
     featured: true,
   },
   {
-    id: 'art',
-    name: 'Art & Design',
-    tagline: 'Create without limits',
-    description: 'Drawing tablets, art supplies, sketching tools for creators.',
-    image: '',
-    gradient: 'from-pink-100 to-rose-100',
-    icon: 'PaintBrush',
-    items: 10,
-    rentals: 1450,
-    featured: true,
-  },
-  {
     id: 'technology',
     name: 'Technology',
     tagline: 'Build the future',

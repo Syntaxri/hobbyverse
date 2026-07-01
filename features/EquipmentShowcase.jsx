@@ -63,7 +63,7 @@ export const EquipmentShowcase = memo(() => {
                     </div>
                     <div className="flex items-center justify-between pt-3 border-t border-hv-border/50">
                       <div>
-                        <span className="text-lg font-bold text-hv-foreground">${product.weekly}</span>
+                        <span className="text-lg font-bold text-hv-foreground">{product.weekly} DH</span>
                         <span className="text-xs text-hv-muted ml-1">/week</span>
                       </div>
                       <Button

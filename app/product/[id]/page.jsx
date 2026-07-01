@@ -165,7 +165,7 @@ export default function ProductDetailPage() {
 
             <div className="bg-white rounded-2xl border border-hv-border p-6 mb-8 shadow-card">
               <div className="flex items-baseline gap-1 mb-6">
-                <span className="text-3xl sm:text-4xl md:text-5xl font-black text-hv-foreground">${price}</span>
+                <span className="text-3xl sm:text-4xl md:text-5xl font-black text-hv-foreground">{price} DH</span>
                 <span className="text-hv-muted">{durations.find((d) => d.id === selectedDuration)?.suffix}</span>
               </div>
 
@@ -181,7 +181,7 @@ export default function ProductDetailPage() {
                     }`}
                   >
                     <span className="block leading-tight">{d.label}</span>
-                    <span className="text-xs opacity-70">${product[d.id]}</span>
+                    <span className="text-xs opacity-70">{product[d.id]} DH</span>
                   </button>
                 ))}
               </div>
@@ -205,7 +205,7 @@ export default function ProductDetailPage() {
 
               <div className="flex items-center justify-between pt-6 border-t border-hv-border mb-6">
                 <span className="text-sm text-hv-muted">Total</span>
-                <span className="text-2xl font-bold text-hv-foreground">${(price * quantity).toLocaleString()}</span>
+                <span className="text-2xl font-bold text-hv-foreground">{(price * quantity).toLocaleString()} DH</span>
               </div>
 
               <Button
@@ -258,7 +258,7 @@ export default function ProductDetailPage() {
                       <div className="p-5">
                         <h3 className="font-semibold text-hv-foreground mb-1">{item.name}</h3>
                         <div className="flex items-center justify-between">
-                          <span className="text-sm font-bold text-hv-foreground">${item.weekly}/wk</span>
+                          <span className="text-sm font-bold text-hv-foreground">{item.weekly} DH/wk</span>
                           <Button variant="ghost" size="sm">View</Button>
                         </div>
                       </div>

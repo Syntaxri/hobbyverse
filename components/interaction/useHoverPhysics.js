@@ -49,7 +49,7 @@ export function useHoverPhysics({ stiffness = 180, damping = 20 } = {}) {
     handlers: {
       onMouseMove: handleMouseMove,
       onMouseLeave: handleMouseLeave,
-      onMouseEnter: handleHoverEnd,
+      onMouseEnter: () => handleHoverStart('card'),
     },
     hoverHandlers: {
       onHoverStart: () => handleHoverStart('card'),

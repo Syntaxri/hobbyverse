@@ -6,29 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="4032caea-ecf1-484b-a60a-5d456f227883" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/dashboard/page.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/dashboard/page.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/delivery/page.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/delivery/page.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/hobbies/page.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/hobbies/page.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/how-it-works/page.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/how-it-works/page.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/layout.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/layout.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/login/page.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/login/page.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/pricing/page.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/pricing/page.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/product/[id]/page.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/product/[id]/page.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/delivery/AddressForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/delivery/AddressForm.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/delivery/ReturnScheduler.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/delivery/ReturnScheduler.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/layout/Container.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/layout/Container.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/layout/Footer.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/layout/Footer.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/layout/MobileBottomNav.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/layout/MobileBottomNav.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/layout/Navbar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/layout/Navbar.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/layout/Section.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/layout/Section.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/layout/SectionHeader.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/layout/SectionHeader.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/ui/Badge.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/ui/Badge.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/ui/Button.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/ui/Button.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/ui/Card.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/ui/Card.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/ui/PricingCard.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/ui/PricingCard.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/ui/SearchBar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/ui/SearchBar.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/ui/Tabs.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/ui/Tabs.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/styles/globals.css" beforeDir="false" afterPath="$PROJECT_DIR$/styles/globals.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -119,7 +96,9 @@
       <workItem from="1782175832701" duration="607000" />
       <workItem from="1782211841692" duration="9723000" />
       <workItem from="1782408040233" duration="4971000" />
-      <workItem from="1782495900011" duration="5508000" />
+      <workItem from="1782495900011" duration="6296000" />
+      <workItem from="1782647689754" duration="893000" />
+      <workItem from="1782666915056" duration="256000" />
     </task>
     <servers />
   </component>

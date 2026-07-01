@@ -140,7 +140,7 @@ export const Navbar = () => {
                   </div>
                   <div className="flex-1 min-w-0">
                     <h4 className="text-sm font-semibold text-hv-foreground truncate">{item.name}</h4>
-                    <p className="text-xs text-hv-muted">${item.price}/{item.duration}</p>
+                    <p className="text-xs text-hv-muted">{item.price} DH/{item.duration}</p>
                     <div className="flex items-center gap-3 mt-1.5">
                       <div className="flex items-center gap-1.5">
                         <button
@@ -164,7 +164,7 @@ export const Navbar = () => {
                     </div>
                   </div>
                   <div className="text-right flex-shrink-0">
-                    <span className="text-sm font-bold text-hv-foreground">${(item.price * item.quantity).toLocaleString()}</span>
+                    <span className="text-sm font-bold text-hv-foreground">{(item.price * item.quantity).toLocaleString()} DH</span>
                   </div>
                 </div>
               ))}
@@ -172,7 +172,7 @@ export const Navbar = () => {
             <div className="border-t border-hv-border pt-4 mt-4 -mx-6 px-6">
               <div className="flex items-center justify-between mb-4">
                 <span className="text-sm text-hv-muted">Total</span>
-                <span className="text-lg font-bold text-hv-foreground">${getTotal().toLocaleString()}</span>
+                <span className="text-lg font-bold text-hv-foreground">{getTotal().toLocaleString()} DH</span>
               </div>
               <NavLink href="/hobbies" className="block">
                 <Button variant="primary" className="w-full" size="md" onClick={() => setCartOpen(false)}>

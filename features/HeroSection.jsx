@@ -14,7 +14,6 @@ const hobbyShowcase = [
   { Icon: Icons.MusicalNote, label: 'Music', color: 'from-cyan-100 to-blue-100', delay: 0 },
   { Icon: Icons.Camera, label: 'Photography', color: 'from-purple-100 to-pink-100', delay: 0.3 },
   { Icon: Icons.Telescope, label: 'Astronomy', color: 'from-indigo-100 to-purple-100', delay: 0.6 },
-  { Icon: Icons.PaintBrush, label: 'Art & Design', color: 'from-pink-100 to-rose-100', delay: 0.9 },
   { Icon: Icons.CpuChip, label: 'Technology', color: 'from-slate-100 to-gray-100', delay: 0.2 },
   { Icon: Icons.BookOpen, label: 'Books', color: 'from-amber-100 to-yellow-100', delay: 0.5 },
   { Icon: Icons.Wave, label: 'Surfing', color: 'from-blue-100 to-cyan-100', delay: 0.8 },
