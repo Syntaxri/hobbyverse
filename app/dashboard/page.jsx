@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { Container } from '@/components/layout/Container';
 import { Section } from '@/components/layout/Section';
 import { Card } from '@/components/ui/Card';
@@ -90,12 +91,48 @@ function PlanBanner() {
 }
 
 export default function DashboardPage() {
+  const searchParams = useSearchParams();
   const rentals = useRentalStore((s) => s.rentals);
   const favorites = useRentalStore((s) => s.favorites);
   const completeReturn = useRentalStore((s) => s.completeReturn);
   const addToast = useToastStore((s) => s.addToast);
+  const upgrade = useSubscriptionStore((s) => s.upgrade);
   const { items: cartItems } = useCartStore();
+  const [hydrated, setHydrated] = useState(false);
   const [returningId, setReturningId] = useState(null);
+  const [stripeLoading, setStripeLoading] = useState(false);
+
+  useEffect(() => { setHydrated(true); }, []);
+
+  useEffect(() => {
+    const subscription = searchParams.get('subscription');
+    const plan = searchParams.get('plan');
+    const sessionId = searchParams.get('session_id');
+
+    if (subscription === 'success' && plan && sessionId) {
+      setStripeLoading(true);
+      fetch(`/api/verify-session?session_id=${sessionId}`)
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.valid) {
+            upgrade(data.plan);
+            addToast(`Welcome to ${data.plan === 'plus' ? 'Plus' : 'Premium'}! Your subscription is active.`, 'success');
+          } else {
+            addToast('Payment could not be verified. Please contact support.', 'error');
+          }
+        })
+        .catch(() => {
+          addToast('Failed to verify payment. Please contact support.', 'error');
+        })
+        .finally(() => setStripeLoading(false));
+
+      const url = new URL(window.location.href);
+      url.searchParams.delete('subscription');
+      url.searchParams.delete('plan');
+      url.searchParams.delete('session_id');
+      window.history.replaceState({}, '', url);
+    }
+  }, []);
 
   const activeRentals = rentals.filter((r) => r.status !== 'RETURNED');
   const completedRentals = rentals.filter((r) => r.status === 'RETURNED');
@@ -124,7 +161,7 @@ export default function DashboardPage() {
           </div>
         </ScrollReveal>
 
-        <PlanBanner />
+        {hydrated && <PlanBanner />}
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 mb-10 sm:mb-12">
           {stats.map((stat, i) => (

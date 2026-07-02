@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Container } from '@/components/layout/Container';
 import { Section } from '@/components/layout/Section';
@@ -64,34 +64,54 @@ const plans = [
 export default function PricingPage() {
   const router = useRouter();
   const addToast = useToastStore((s) => s.addToast);
-  const startTrial = useSubscriptionStore((s) => s.startTrial);
-  const upgrade = useSubscriptionStore((s) => s.upgrade);
-  const currentPlanKey = useSubscriptionStore((s) => s.plan);
   const getPlanInfo = useSubscriptionStore((s) => s.getPlanInfo);
+  const [hydrated, setHydrated] = useState(false);
   const currentPlan = getPlanInfo();
+
+  useEffect(() => { setHydrated(true); }, []);
+
   const [selectedPlan, setSelectedPlan] = useState(null);
 
-  const handleSelect = (planName) => {
+  const handleSelect = async (planName) => {
     setSelectedPlan(planName);
+
     const planKey = planName.toLowerCase();
     const isCurrent = currentPlan.planKey === planKey;
 
     if (isCurrent) {
       addToast(`You're already on the ${planName} plan!`, 'info');
-      setTimeout(() => router.push('/hobbies'), 300);
+      setSelectedPlan(null);
       return;
     }
 
-    if (planName === 'Plus') {
-      startTrial();
-      addToast('14-day free trial started! Welcome to Plus.', 'success');
-      setTimeout(() => router.push('/hobbies'), 300);
+    if (planName === 'Starter') {
+      router.push('/hobbies');
+      setSelectedPlan(null);
       return;
     }
 
-    upgrade(planKey);
-    addToast(`Upgraded to ${planName}!`, 'success');
-    setTimeout(() => router.push('/hobbies'), 300);
+    try {
+      const res = await fetch('/api/create-checkout-session', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ plan: planKey }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        addToast(data.error || 'Something went wrong', 'error');
+        setSelectedPlan(null);
+        return;
+      }
+
+      if (data.url) {
+        window.location.href = data.url;
+      }
+    } catch (err) {
+      addToast('Failed to connect to payment provider', 'error');
+      setSelectedPlan(null);
+    }
   };
 
   return (
@@ -106,7 +126,7 @@ export default function PricingPage() {
                 {...plan}
                 loading={selectedPlan === plan.plan}
                 onSelect={() => handleSelect(plan.plan)}
-                currentPlan={currentPlan.planKey === plan.plan.toLowerCase()}
+                currentPlan={hydrated && currentPlan.planKey === plan.plan.toLowerCase()}
               />
             </ScrollReveal>
           ))}

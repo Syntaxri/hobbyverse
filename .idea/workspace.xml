@@ -4,7 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4032caea-ecf1-484b-a60a-5d456f227883" name="Changes" comment="" />
+    <list default="true" id="4032caea-ecf1-484b-a60a-5d456f227883" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/app/dashboard/page.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/dashboard/page.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/pricing/page.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/pricing/page.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -97,7 +102,7 @@
       <workItem from="1782495900011" duration="6296000" />
       <workItem from="1782647689754" duration="893000" />
       <workItem from="1782666915056" duration="256000" />
-      <workItem from="1783006846839" duration="1980000" />
+      <workItem from="1783006846839" duration="2829000" />
     </task>
     <servers />
   </component>

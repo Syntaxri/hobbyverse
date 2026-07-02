@@ -38,7 +38,6 @@ export default function ProductDetailPage() {
 
   const addItem = useCartStore((s) => s.addItem);
   const toggleFavorite = useRentalStore((s) => s.toggleFavorite);
-  const createRental = useRentalStore((s) => s.createRental);
   const favorites = useRentalStore((s) => s.favorites);
   const addToast = useToastStore((s) => s.addToast);
 
@@ -74,22 +73,32 @@ export default function ProductDetailPage() {
     setShowAddressForm(true);
   }, [product, isCreating, addToast]);
 
-  const handleAddressSubmit = useCallback((address) => {
+  const handleAddressSubmit = useCallback(async (address) => {
     if (!product) return;
     setIsCreating(true);
-    setTimeout(() => {
-      const result = createRental(product, selectedDuration, quantity, address);
-      if (result.error) {
-        addToast(result.error, 'error');
+    try {
+      const res = await fetch('/api/create-rental-payment', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          productId: product.id,
+          duration: selectedDuration,
+          quantity,
+          address,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.url) {
+        addToast(data.error || 'Failed to start payment', 'error');
         setIsCreating(false);
         return;
       }
-      addToast('Rental confirmed!', 'success');
-      setShowAddressForm(false);
+      window.location.href = data.url;
+    } catch (err) {
+      addToast('Failed to connect to payment provider', 'error');
       setIsCreating(false);
-      router.push('/delivery');
-    }, 300);
-  }, [product, selectedDuration, quantity, createRental, addToast, router]);
+    }
+  }, [product, selectedDuration, quantity, addToast]);
 
   if (!product) {
     return (
