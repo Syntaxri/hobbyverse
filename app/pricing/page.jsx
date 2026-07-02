@@ -26,7 +26,7 @@ const plans = [
   },
   {
     plan: 'Creator',
-    price: 19,
+    price: 79,
     period: '/month',
     description: 'For hobbyists who want flexibility and premium access.',
     features: [
@@ -41,7 +41,7 @@ const plans = [
   },
   {
     plan: 'Pro',
-    price: 49,
+    price: 199,
     period: '/month',
     description: 'For power users and professionals who rent frequently.',
     features: [
