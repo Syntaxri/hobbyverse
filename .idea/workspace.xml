@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4032caea-ecf1-484b-a60a-5d456f227883" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/components/delivery/AddressForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/delivery/AddressForm.jsx" afterDir="false" />
-    </list>
+    <list default="true" id="4032caea-ecf1-484b-a60a-5d456f227883" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -99,7 +97,7 @@
       <workItem from="1782495900011" duration="6296000" />
       <workItem from="1782647689754" duration="893000" />
       <workItem from="1782666915056" duration="256000" />
-      <workItem from="1783006846839" duration="1088000" />
+      <workItem from="1783006846839" duration="1980000" />
     </task>
     <servers />
   </component>

@@ -16,6 +16,7 @@ import { AddressForm } from '@/components/delivery/AddressForm';
 import { getProduct, getProductsByCategory } from '@/lib/getProduct';
 import { useCartStore } from '@/store/useCartStore';
 import { useRentalStore } from '@/store/useRentalStore';
+import { useSubscriptionStore } from '@/store/useSubscriptionStore';
 import { useToastStore } from '@/store/useToastStore';
 
 const durations = [
@@ -62,14 +63,27 @@ export default function ProductDetailPage() {
 
   const handleRentNow = useCallback(() => {
     if (!product?.available || isCreating) return;
+    const rentals = useRentalStore.getState().rentals;
+    const activeCount = rentals.filter((r) => r.status !== 'RETURNED').length;
+    const sub = useSubscriptionStore.getState();
+    const { allowed, reason } = sub.canRent(activeCount);
+    if (!allowed) {
+      addToast(reason, 'error');
+      return;
+    }
     setShowAddressForm(true);
-  }, [product, isCreating]);
+  }, [product, isCreating, addToast]);
 
   const handleAddressSubmit = useCallback((address) => {
     if (!product) return;
     setIsCreating(true);
     setTimeout(() => {
-      createRental(product, selectedDuration, quantity, address);
+      const result = createRental(product, selectedDuration, quantity, address);
+      if (result.error) {
+        addToast(result.error, 'error');
+        setIsCreating(false);
+        return;
+      }
       addToast('Rental confirmed!', 'success');
       setShowAddressForm(false);
       setIsCreating(false);

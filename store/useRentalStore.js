@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { useSubscriptionStore } from './useSubscriptionStore';
 
 export const RENTAL_DEFAULTS = {
   id: '',
@@ -110,6 +111,12 @@ export const useRentalStore = create(
       favorites: [],
 
       createRental: (product, duration, quantity, address) => {
+        const activeRentals = get().rentals.filter((r) => r.status !== 'RETURNED');
+        const sub = useSubscriptionStore.getState();
+        const { allowed, reason } = sub.canRent(activeRentals.length);
+        if (!allowed) {
+          return { error: reason };
+        }
         const existing = get().rentals;
         const existingIds = new Set(existing.map((r) => r.id));
         const maxNum = existing.reduce((max, r) => {
@@ -156,7 +163,7 @@ export const useRentalStore = create(
 
         const rental = normalizeRental(raw);
         set((state) => ({ rentals: [...state.rentals, rental] }));
-        return id;
+        return { id };
       },
 
       updateRentalStatus: (rentalId, newStatus) =>

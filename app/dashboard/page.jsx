@@ -10,6 +10,7 @@ import { NavLink } from '@/components/ui/NavLink';
 import { ScrollReveal } from '@/components/motion/ScrollReveals';
 import { useCartStore } from '@/store/useCartStore';
 import { useRentalStore } from '@/store/useRentalStore';
+import { useSubscriptionStore } from '@/store/useSubscriptionStore';
 import { useToastStore } from '@/store/useToastStore';
 import { getProduct, getCategoryFallbackGradient } from '@/lib/getProduct';
 import { Icons } from '@/components/icons';
@@ -20,6 +21,72 @@ function getImageForRental(rental) {
   if (product?.image) return { src: product.image, gradient };
   if (rental.image) return { src: rental.image, gradient: getCategoryFallbackGradient(rental.category) };
   return { src: '', gradient };
+}
+
+function PlanBanner() {
+  const planKey = useSubscriptionStore((s) => s.plan);
+  const trialActive = useSubscriptionStore((s) => s.trialActive);
+  const getPlanInfo = useSubscriptionStore((s) => s.getPlanInfo);
+  const startTrial = useSubscriptionStore((s) => s.startTrial);
+  const upgrade = useSubscriptionStore((s) => s.upgrade);
+  const info = getPlanInfo();
+  const activeRentals = useRentalStore((s) => s.rentals.filter((r) => r.status !== 'RETURNED').length);
+  const addToast = useToastStore((s) => s.addToast);
+
+  const isAtLimit = info.maxActiveRentals !== null && activeRentals >= info.maxActiveRentals;
+
+  return (
+    <Card className="p-4 sm:p-5 mb-6 sm:mb-8" hoverEffect={false}>
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-hv-cyan to-hv-sky flex items-center justify-center flex-shrink-0">
+            <Icons.Sparkles className="w-5 h-5 text-white" />
+          </div>
+          <div>
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="text-sm font-semibold text-hv-foreground">
+                {info.name} Plan
+              </span>
+              <Badge variant={info.isTrial ? 'cyan' : info.planKey === 'starter' ? 'default' : 'green'}>
+                {info.isTrial ? `Trial · ${Math.max(0, Math.ceil((new Date(info.trialEndsAt) - new Date()) / (1000 * 60 * 60 * 24)))}d left` : info.planKey === 'premium' ? 'Premium' : info.planKey === 'plus' ? 'Active' : 'Free'}
+              </Badge>
+            </div>
+            <p className="text-xs text-hv-muted mt-0.5">
+              {info.maxActiveRentals === null
+                ? 'Unlimited active rentals'
+                : `${activeRentals}/${info.maxActiveRentals} active rentals used`}
+            </p>
+          </div>
+        </div>
+        <div className="flex items-center gap-2 flex-shrink-0">
+          {info.planKey === 'starter' && (
+            <>
+              <Button variant="primary" size="sm" onClick={() => {
+                startTrial();
+                addToast('14-day free trial started! Welcome to Plus.', 'success');
+              }}>
+                Start Free Trial
+              </Button>
+              <Button variant="ghost" size="sm" onClick={() => {
+                upgrade('premium');
+                addToast('Upgraded to Premium!', 'success');
+              }}>
+                Go Premium
+              </Button>
+            </>
+          )}
+          {isAtLimit && info.planKey !== 'starter' && (
+            <Button variant="primary" size="sm" onClick={() => {
+              upgrade('premium');
+              addToast('Upgraded to Premium — unlimited rentals!', 'success');
+            }}>
+              Upgrade for Unlimited
+            </Button>
+          )}
+        </div>
+      </div>
+    </Card>
+  );
 }
 
 export default function DashboardPage() {
@@ -56,6 +123,8 @@ export default function DashboardPage() {
             </div>
           </div>
         </ScrollReveal>
+
+        <PlanBanner />
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 mb-10 sm:mb-12">
           {stats.map((stat, i) => (
