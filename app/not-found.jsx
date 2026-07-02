@@ -12,7 +12,7 @@ export default function NotFound() {
           Realm Not Found
         </h1>
         <p className="text-hv-muted mb-8 max-w-md mx-auto text-base leading-relaxed">
-          This dimension doesn&apos;t exist in the HobbyVerse. Let&apos;s get you back to familiar territory.
+          This dimension doesn&apos;t exist in the Next Hobby universe. Let&apos;s get you back to familiar territory.
         </p>
         <Link
           href="/"

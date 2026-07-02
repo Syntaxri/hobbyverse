@@ -7,6 +7,7 @@ import { Section } from '@/components/layout/Section';
 import { Button } from '@/components/ui/Button';
 import { NavLink } from '@/components/ui/NavLink';
 import { Icons } from '@/components/icons';
+import { TypeWriter } from '@/components/ui/TypeWriter';
 
 const easeOut = [0.16, 1, 0.3, 1];
 
@@ -78,9 +79,21 @@ export const HeroSection = memo(() => (
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3, ease: easeOut }}
-            className="text-sm sm:text-base md:text-lg text-hv-secondary leading-relaxed mb-8"
+            className="text-sm sm:text-base md:text-lg text-hv-secondary leading-relaxed mb-8 min-h-[3rem]"
           >
-            Rent real equipment for music, photography, art, astronomy, surfing, skateboarding, books, and technology projects. Try new passions without expensive commitments.
+            <TypeWriter
+              texts={[
+                'Rent equipment for Music.',
+                'Rent equipment for Photography.',
+                'Rent equipment for Astronomy.',
+                'Rent equipment for Technology.',
+                'Rent equipment for Surfing.',
+                'Rent equipment for Skateboarding.',
+                'Rent equipment for Books.',
+              ]}
+              speed={55}
+              delay={2500}
+            />
           </motion.p>
 
           <motion.div
@@ -140,7 +153,7 @@ export const HeroSection = memo(() => (
                   <span className="w-2.5 h-2.5 bg-white rounded-md" />
                 </div>
                 <div>
-                  <div className="text-sm font-bold text-hv-foreground">HobbyVerse</div>
+                  <div className="text-sm font-bold text-hv-foreground">Next Hobby</div>
                   <div className="text-[10px] text-hv-muted">Equipment Marketplace</div>
                 </div>
               </div>

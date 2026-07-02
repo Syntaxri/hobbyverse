@@ -1,5 +1,5 @@
 {
-  "name": "hobbyverse",
+  "name": "next-hobby",
   "version": "1.0.0",
   "description": "Discover your passion before making a major investment. Rent premium hobby equipment and explore new skills.",
   "scripts": {
@@ -13,7 +13,7 @@
     "nextjs",
     "threejs"
   ],
-  "author": "HobbyVerse",
+  "author": "Next Hobby",
   "license": "MIT",
   "dependencies": {
     "@react-three/fiber": "^9.6.1",

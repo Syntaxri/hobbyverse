@@ -54,7 +54,7 @@ export const Navbar = () => {
           <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-gradient-to-br from-hv-cyan to-hv-sky flex items-center justify-center shadow-soft transition-transform group-hover:scale-105">
             <span className="w-2 h-2 sm:w-2.5 sm:h-2.5 bg-white rounded-md" />
           </div>
-          <span className="text-base sm:text-lg font-bold text-hv-foreground">HobbyVerse</span>
+          <span className="text-base sm:text-lg font-bold text-hv-foreground">Next Hobby</span>
         </NavLink>
 
         <nav className="hidden md:flex items-center gap-8">

@@ -1,5 +1,5 @@
 export default function sitemap() {
-  const baseUrl = 'https://hobbyverse.app';
+  const baseUrl = 'https://nexthobby.app';
 
   return [
     { url: baseUrl, lastModified: new Date(), changeFrequency: 'weekly', priority: 1.0 },

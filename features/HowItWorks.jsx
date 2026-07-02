@@ -34,7 +34,7 @@ const steps = [
 export const HowItWorks = memo(() => (
   <Section>
     <Container>
-      <SectionHeader subtitle="Simple Process" title="How HobbyVerse Works" />
+      <SectionHeader subtitle="Simple Process" title="How Next Hobby Works" />
       <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5 md:gap-6">
         {steps.map((step, i) => (
           <ScrollReveal key={step.number} delay={i * 0.1}>

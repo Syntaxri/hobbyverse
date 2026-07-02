@@ -147,7 +147,7 @@ export const useRentalStore = create(
             },
             scheduledDate: startDate,
             trackingId: generateTrackingId(),
-            carrier: 'HobbyVerse Logistics',
+            carrier: 'Next Hobby Logistics',
           },
           return: { scheduledPickupDate: null, status: 'pending' },
           timeline: [{ status: 'CONFIRMED', timestamp: now() }],
@@ -243,7 +243,7 @@ export const useRentalStore = create(
       },
     }),
     {
-      name: 'hobbyverse-rentals',
+      name: 'nexthobby-rentals',
       partialize: (state) => ({
         rentals: state.rentals,
         favorites: state.favorites,

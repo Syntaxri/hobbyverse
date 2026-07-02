@@ -1,6 +1,6 @@
 export default function robots() {
   return {
     rules: { userAgent: '*', allow: '/', disallow: ['/dashboard/', '/api/'] },
-    sitemap: 'https://hobbyverse.app/sitemap.xml',
+    sitemap: 'https://nexthobby.app/sitemap.xml',
   };
 }

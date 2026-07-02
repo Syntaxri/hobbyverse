@@ -1,15 +1,17 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/Button';
 
 export const AddressForm = ({ product, duration, price, quantity, onSubmit, onCancel }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [termsAccepted, setTermsAccepted] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (isSubmitting) return;
+    if (isSubmitting || !termsAccepted) return;
     const form = e.currentTarget;
     const data = {
       fullName: form.fullName.value.trim(),
@@ -93,10 +95,27 @@ export const AddressForm = ({ product, duration, price, quantity, onSubmit, onCa
               </div>
             </div>
 
+            <label className="flex items-start gap-3 py-2">
+              <input
+                type="checkbox"
+                checked={termsAccepted}
+                onChange={(e) => setTermsAccepted(e.target.checked)}
+                className="mt-1 w-4 h-4 rounded border-hv-border text-hv-sky focus:ring-hv-sky/40 accent-hv-sky flex-shrink-0"
+              />
+              <span className="text-xs text-hv-muted leading-relaxed">
+                I have read and accept the{' '}
+                <Link href="/terms" target="_blank" className="text-hv-sky underline hover:text-hv-cyan transition-colors">
+                  Terms & Conditions
+                </Link>
+                . I agree to be responsible for the rented equipment and to return it in good condition.
+              </span>
+            </label>
+
             <Button
               type="submit"
               className="w-full mt-2"
               size="lg"
+              disabled={!termsAccepted}
               loading={isSubmitting}
               loadingText="Confirming..."
             >

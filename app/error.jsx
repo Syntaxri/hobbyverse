@@ -23,7 +23,7 @@ export default function Error({ error, reset }) {
         </div>
         <h1 className="text-4xl font-bold text-hv-foreground mb-4">Something Went Wrong</h1>
         <p className="text-hv-muted mb-8 max-w-md mx-auto text-base leading-relaxed">
-          A glitch occurred in the HobbyVerse. Our team has been notified.
+          A glitch occurred in the Next Hobby universe. Our team has been notified.
         </p>
         <button
           onClick={handleReset}

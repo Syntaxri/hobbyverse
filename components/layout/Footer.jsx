@@ -46,7 +46,7 @@ export const Footer = () => (
             <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-hv-cyan to-hv-sky flex items-center justify-center">
               <span className="w-2 h-2 bg-white rounded-sm" />
             </div>
-            <span className="text-base font-bold text-hv-foreground">HobbyVerse</span>
+            <span className="text-base font-bold text-hv-foreground">Next Hobby</span>
           </NavLink>
           <p className="text-sm text-hv-muted leading-relaxed max-w-xs text-pretty">
             Discover your passion before making a major investment. Rent premium equipment and explore new skills.
@@ -74,7 +74,7 @@ export const Footer = () => (
         ))}
       </div>
       <div className="mt-10 sm:mt-12 pt-6 border-t border-hv-border/50 flex flex-col md:flex-row justify-between items-center gap-4">
-        <p className="text-xs text-hv-muted">&copy; {new Date().getFullYear()} HobbyVerse. All rights reserved.</p>
+        <p className="text-xs text-hv-muted">&copy; {new Date().getFullYear()} Next Hobby. All rights reserved.</p>
         <div className="flex gap-5">
           {['Twitter', 'Instagram', 'GitHub', 'Discord'].map((s) => (
             <Link key={s} href="#" className="text-xs text-hv-muted hover:text-hv-foreground transition-colors min-h-[44px] inline-flex items-center">{s}</Link>

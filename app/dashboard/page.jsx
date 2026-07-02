@@ -49,7 +49,7 @@ export default function DashboardPage() {
               <h1 className="text-4xl md:text-5xl font-black text-hv-foreground tracking-tight mb-2">
                 Command Center
               </h1>
-              <p className="text-hv-muted">Your HobbyVerse rental headquarters.</p>
+              <p className="text-hv-muted">Your Next Hobby rental headquarters.</p>
             </div>
             <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-hv-cyan to-hv-sky flex items-center justify-center">
               <Icons.Sparkles className="w-5 h-5 text-white" />
